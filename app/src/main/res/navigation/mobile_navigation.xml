@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/nav_inicio">
+
+    <fragment
+        android:id="@+id/nav_inicio"
+        android:name="com.daferarevalo.bibliotecapp.ui.inicio.InicioFragment"
+        android:label="@string/inicio"
+        tools:layout="@layout/fragment_inicio" />
+    <fragment
+        android:id="@+id/nav_micuenta"
+        android:name="com.daferarevalo.bibliotecapp.ui.miperfil.PerfilFragment"
+        android:label="@string/mi_cuenta"
+        tools:layout="@layout/fragment_perfil" />
+    <fragment
+        android:id="@+id/nav_eventos"
+        android:name="com.daferarevalo.bibliotecapp.ui.eventos.EventosFragment"
+        android:label="@string/eventos"
+        tools:layout="@layout/fragment_eventos" />
+    <fragment
+        android:id="@+id/nav_bibliotecas"
+        android:name="com.daferarevalo.bibliotecapp.ui.bibliotecas.BibliotecasFragment"
+        android:label="@string/bibliotecas"
+        tools:layout="@layout/fragment_bibliotecas" />
+</navigation>
