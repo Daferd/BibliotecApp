@@ -6,4 +6,7 @@
     <string name="registro">Registro</string>
     <string name="nombre">Nombre</string>
     <string name="cerrar_sesion">Cerrar sesion</string>
+    <string name="ingrese_correo">Ingrese un correo</string>
+    <string name="ingrese_contrasena">Ingrese una contraseña</string>
+    <string name="google">Google</string>
 </resources>

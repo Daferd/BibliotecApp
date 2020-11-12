@@ -26,5 +26,5 @@ class InicioFragment : Fragment() {
 
     }
 
-    companion object
+
 }
