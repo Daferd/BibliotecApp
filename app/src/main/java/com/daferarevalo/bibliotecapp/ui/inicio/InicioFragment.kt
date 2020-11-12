@@ -1,20 +1,16 @@
 package com.daferarevalo.bibliotecapp.ui.inicio
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.daferarevalo.bibliotecapp.R
+import com.daferarevalo.bibliotecapp.databinding.FragmentInicioBinding
 
 
 class InicioFragment : Fragment() {
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private lateinit var binding: FragmentInicioBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,9 +22,9 @@ class InicioFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    companion object {
+        binding = FragmentInicioBinding.bind(view)
 
     }
+
+    companion object
 }
