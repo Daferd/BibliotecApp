@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="correo">Correo</string>
+    <string name="olvidaste_tu_contrasena">¿Olvidaste tu contraseña?</string>
+    <string name="registrar">Registrar</string>
+    <string name="registro">Registro</string>
+    <string name="nombre">Nombre</string>
+</resources>
