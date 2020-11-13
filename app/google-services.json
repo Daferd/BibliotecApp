@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "465204658105",
+    "firebase_url": "https://bibliotecapp-fb7f8.firebaseio.com",
+    "project_id": "bibliotecapp-fb7f8",
+    "storage_bucket": "bibliotecapp-fb7f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465204658105:android:c41bc682297cc75fde4068",
+        "android_client_info": {
+          "package_name": "com.daferarevalo.bibliotecapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "465204658105-f25qjjnju0dcaeumnb1uci2ebdbre458.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.daferarevalo.bibliotecapp",
+            "certificate_hash": "140fa5712c6827c9359a3f199259e68e6e5c2603"
+          }
+        },
+        {
+          "client_id": "465204658105-cih8t46hd3pn8u13udt8dm7lm781tnvf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG4a5NyAGzuCJAmtYyNXLjZaewiWJxp8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "465204658105-cih8t46hd3pn8u13udt8dm7lm781tnvf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

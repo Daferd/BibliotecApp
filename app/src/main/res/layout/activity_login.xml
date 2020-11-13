@@ -51,7 +51,7 @@
         app:errorEnabled="true"
         app:startIconDrawable="@drawable/ic_lock"
         app:passwordToggleEnabled="true"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="2dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/contrasena_login_edit_text"
@@ -92,7 +92,7 @@
         android:id="@+id/registro_google_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:text="@string/google"
         android:textSize="18sp"
         app:icon="@drawable/ic_google"/>
