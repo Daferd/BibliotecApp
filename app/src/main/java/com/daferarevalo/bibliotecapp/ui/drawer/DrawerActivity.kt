@@ -1,5 +1,6 @@
 package com.daferarevalo.bibliotecapp.ui.drawer
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.daferarevalo.bibliotecapp.R
+import com.daferarevalo.bibliotecapp.ui.login.LoginActivity
 import com.google.android.material.navigation.NavigationView
 
 class DrawerActivity : AppCompatActivity() {
@@ -42,6 +44,23 @@ class DrawerActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_overflow_drawer, menu)
         return true
+    }
+
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.action_cerrarSesion -> {
+                val auth = FirebaseAuth.getInstance().signOut()
+                goToLoginActivity()
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+        return true
+    }*/
+
+    private fun goToLoginActivity() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
 

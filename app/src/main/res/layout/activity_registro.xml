@@ -29,8 +29,7 @@
             android:id="@+id/nombre_registro_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/nombre"
-            android:inputType="textEmailAddress" />
+            android:hint="@string/nombre" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -39,7 +38,7 @@
         android:layout_height="wrap_content"
         app:errorEnabled="true"
         app:startIconDrawable="@drawable/ic_email"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="2dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/correo_registro_edit_text"
@@ -55,7 +54,7 @@
         android:layout_height="wrap_content"
         app:errorEnabled="true"
         app:startIconDrawable="@drawable/ic_lock"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="2dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/contrasena_registro_edit_text"
@@ -71,7 +70,7 @@
         android:layout_height="wrap_content"
         app:errorEnabled="true"
         app:startIconDrawable="@drawable/ic_lock"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="2dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/repcontrasena_registro_edit_text"
