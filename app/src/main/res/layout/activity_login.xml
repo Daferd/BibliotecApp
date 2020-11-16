@@ -33,7 +33,8 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:errorEnabled="true"
         app:startIconDrawable="@drawable/ic_email"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        app:boxCornerRadiusTopStart="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/correo_login_edit_text"
@@ -51,7 +52,8 @@
         app:errorEnabled="true"
         app:startIconDrawable="@drawable/ic_lock"
         app:passwordToggleEnabled="true"
-        android:layout_marginTop="2dp">
+        android:layout_marginTop="2dp"
+        app:boxCornerRadiusBottomEnd="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/contrasena_login_edit_text"
@@ -66,16 +68,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/olvidaste_tu_contrasena"
-        android:layout_marginTop="8dp"
         android:layout_gravity="end"
         style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:textSize="12sp" />
+        android:textAppearance="@style/Theme.BibliotecApp"
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/iniciar_sesion_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/iniciarSesion"
         android:textSize="18sp" />
 
@@ -86,16 +88,25 @@
         android:layout_height="60dp"
         android:text="@string/registrar"
         android:textSize="18sp"
-        android:layout_marginTop="6dp"/>
+        android:layout_marginTop="6dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/prefieres_ingresar_con_tu_cuenta_de_google"
+        android:textColor="@color/green_500">
+
+    </TextView>
 
     <Button
         android:id="@+id/registro_google_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="@string/google"
         android:textSize="18sp"
-        app:icon="@drawable/ic_google"/>
+        app:icon="@drawable/ic_google" />
 
 
 </LinearLayout>

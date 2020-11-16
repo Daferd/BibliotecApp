@@ -5,7 +5,9 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.daferarevalo.bibliotecapp.databinding.ActivityRegistroBinding
+import com.daferarevalo.bibliotecapp.server.Usuario
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class RegistroActivity : AppCompatActivity() {
 
@@ -35,19 +37,21 @@ class RegistroActivity : AppCompatActivity() {
             } else if (contrasena != repcontrasena) {
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
             } else {
-                registroEnFirebase(correo, contrasena)
+                registroEnFirebase(correo, contrasena, nombre)
             }
         }
     }
 
-    private fun registroEnFirebase(correo: String, contrasena: String) {
+    private fun registroEnFirebase(correo: String, contrasena: String, nombre: String) {
         auth.createUserWithEmailAndPassword(correo, contrasena)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
+                    val uid = auth.currentUser?.uid
+                    crearUsuarioEnBaseDatos(uid, nombre, correo)
                     //val user = auth.currentUser
-                    goToLoginActivity()
+
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
@@ -57,6 +61,16 @@ class RegistroActivity : AppCompatActivity() {
                     ).show()
                 }
             }
+    }
+
+    private fun crearUsuarioEnBaseDatos(uid: String?, nombre: String, correo: String) {
+        val database = FirebaseDatabase.getInstance()
+        val myUsersReference = database.getReference("usuarios")
+
+        val usuario = Usuario(uid, nombre, correo)
+        uid?.let { myUsersReference.child(uid).setValue(usuario) }
+
+        goToLoginActivity()
     }
 
     private fun goToLoginActivity() {

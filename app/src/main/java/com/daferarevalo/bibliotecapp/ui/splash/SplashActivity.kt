@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.ui.drawer.DrawerActivity
 import com.daferarevalo.bibliotecapp.ui.login.LoginActivity
-import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 import kotlin.concurrent.timerTask
 
@@ -18,12 +17,13 @@ class SplashActivity : AppCompatActivity() {
         val timer = Timer()
         timer.schedule(
             timerTask {
-                val auth = FirebaseAuth.getInstance()
+                /*val auth = FirebaseAuth.getInstance()
                 if (auth.uid == null) {
                     goToLoginActivity()
                 } else {
                     goToDrawerActivity()
-                }
+                }*/
+                goToLoginActivity()
             }, 1000
         )
     }
