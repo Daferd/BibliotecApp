@@ -15,16 +15,16 @@
             android:name=".ui.drawer.DrawerActivity"
             android:label="@string/title_activity_drawer"
             android:theme="@style/Theme.BibliotecApp.NoActionBar">
-
-        </activity>
-        <activity
-            android:name=".ui.splash.SplashActivity"
-            android:theme="@style/Theme.BibliotecApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:theme="@style/Theme.BibliotecApp.NoActionBar">
 
         </activity>
         <activity android:name=".ui.registro.RegistroActivity" />
