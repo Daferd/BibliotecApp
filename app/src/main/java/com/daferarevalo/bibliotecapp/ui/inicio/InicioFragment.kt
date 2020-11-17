@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daferarevalo.bibliotecapp.R
@@ -45,6 +47,11 @@ class InicioFragment : Fragment() {
         cargarDesdeFirebase()
 
         librosRVAdapter.notifyDataSetChanged()
+
+        val navController: NavController = Navigation.findNavController(view)
+        binding.button.setOnClickListener {
+            navController.navigate(R.id.nav_libro)
+        }
     }
 
     private fun cargarDesdeFirebase() {

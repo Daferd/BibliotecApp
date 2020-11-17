@@ -25,7 +25,7 @@ class PerfilFragment : Fragment() {
 
     //private val TAG = PerfilFragment::class.java.simpleName
 
-    //private lateinit var correoActual: String
+    //private var correoActual: String? = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,7 +102,6 @@ class PerfilFragment : Fragment() {
         }
     }
 
-
     private fun actualizarCorreoFirebase(
         user: FirebaseUser?,
         nuevoCorreo: String
@@ -128,6 +127,9 @@ class PerfilFragment : Fragment() {
                     if (usuarioServer?.id.equals(uidUsuario)) {
                         binding.nombrePerfilEditText.setText(usuarioServer?.nombre)
                         binding.correoPerfilEditText.setText(usuarioServer?.correo)
+
+                        //correoActual = usuarioServer?.correo
+
                     }
                 }
             }
