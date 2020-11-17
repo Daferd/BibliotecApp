@@ -1,91 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".ui.miperfil.PerfilFragment">
+    android:fillViewport="true">
 
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic__add_a_photo" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nombre_perfil_edit_text_layout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:errorEnabled="true"
-        app:startIconDrawable="@drawable/ic_person">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".ui.miperfil.PerfilFragment">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nombre_perfil_edit_text"
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic__add_a_photo" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nombre_perfil_edit_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/nombre" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="24dp"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/ic_person">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/correo_perfil_edit_text_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        app:errorEnabled="true"
-        app:startIconDrawable="@drawable/ic_email">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nombre_perfil_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/nombre" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/correo_perfil_edit_text"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/correo_perfil_edit_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/correo"
-            android:inputType="textEmailAddress" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="2dp"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/ic_email">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/contrasena_perfil_edit_text_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        app:errorEnabled="true"
-        app:startIconDrawable="@drawable/ic_lock">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/correo_perfil_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/correo"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/contrasena_perfil_edit_text"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/contrasena_perfil_edit_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/contrasena"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="2dp"
+            app:errorEnabled="true"
+            app:passwordToggleEnabled="true"
+            app:startIconDrawable="@drawable/ic_lock">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/repcontrasena_perfil_edit_text_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        app:errorEnabled="true"
-        app:startIconDrawable="@drawable/ic_lock">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/contrasena_perfil_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/contrasena"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/repcontrasena_perfil_edit_text"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/repcontrasena_perfil_edit_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/repita_contrasena"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="2dp"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/ic_lock">
 
-    <Button
-        android:id="@+id/actualizar_perfil_button"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:text="@string/actualizar"
-        android:textSize="18sp" />
-</LinearLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/repcontrasena_perfil_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/repita_contrasena"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/actualizar_perfil_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/actualizar"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/cerrar_sesion_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="@string/cerrar_sesion"
+            android:textSize="18dp" />
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

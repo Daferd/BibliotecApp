@@ -1,5 +1,6 @@
 package com.daferarevalo.bibliotecapp.ui.miperfil
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentPerfilBinding
 import com.daferarevalo.bibliotecapp.server.Usuario
+import com.daferarevalo.bibliotecapp.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -23,8 +25,7 @@ class PerfilFragment : Fragment() {
 
     //private val TAG = PerfilFragment::class.java.simpleName
 
-    //RegistroActivity::class.simpleName
-
+    //private lateinit var correoActual: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,22 +49,59 @@ class PerfilFragment : Fragment() {
 
             val nuevoNombre = binding.nombrePerfilEditText.text.toString()
             val nuevoCorreo = binding.correoPerfilEditText.text.toString()
-            val nuevaContrasena = binding.contrasenaPerfilEditText.toString()
+            val nuevaContrasena = binding.contrasenaPerfilEditText.text.toString()
 
-            actualizarCorreoFirebase(user, nuevoCorreo)
-            //actualizarDatabaseFirebase(nuevoNombre,nuevoCorreo)
+            user?.let {
+                val uidUsuario = user.uid
+                actualizarCorreoFirebase(user, nuevoCorreo)
+                actualizarContrasenaFirebase(nuevaContrasena, user)
+                actualizarDatabaseFirebase(nuevoNombre, nuevoCorreo, uidUsuario)
+                //actualizarDatabaseFirebase(nuevoNombre,nuevoCorreo)
+            }
         }
 
+        binding.cerrarSesionButton.setOnClickListener {
+            val auth = FirebaseAuth.getInstance().signOut()
+            goToLoginActivity()
+        }
     }
 
-    /*  private fun actualizarDatabaseFirebase(nuevoNombre: String, nuevoCorreo: String) {
-          val database = FirebaseDatabase.getInstance()
-          val myUsuarioRef = database.getReference("usuarios")
-          val childUpdates = HashMap<String, Any>()
-          childUpdates["nombre"] = nuevoNombre
-          childUpdates["correo"] = nuevoCorreo
-          idDeudor?.let { myDeudorRef.child(it).updateChildren(childUpdates) }
-      }*/
+    private fun goToLoginActivity() {
+        val intent = Intent(context, LoginActivity::class.java)
+        startActivity(intent)
+        //finish()
+    }
+
+    private fun actualizarDatabaseFirebase(
+        nuevoNombre: String,
+        nuevoCorreo: String,
+        uidUsuario: String
+    ) {
+        val database = FirebaseDatabase.getInstance()
+        val myUsuarioRef = database.getReference("usuarios")
+        val childUpdates = HashMap<String, Any>()
+        childUpdates["nombre"] = nuevoNombre
+        childUpdates["correo"] = nuevoCorreo
+        uidUsuario.let { myUsuarioRef.child(it).updateChildren(childUpdates) }
+        Toast.makeText(context, "DataBase actualizada", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun actualizarContrasenaFirebase(
+        nuevaContrasena: String,
+        user: FirebaseUser?
+    ) {
+        if (nuevaContrasena.isNotBlank() || nuevaContrasena.isNotEmpty()) {
+
+            user!!.updatePassword(nuevaContrasena)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(context, "Contraseña Actualizada", Toast.LENGTH_SHORT).show()
+                        //Log.d(TAG, "User password updated.")
+                    }
+                }
+        }
+    }
+
 
     private fun actualizarCorreoFirebase(
         user: FirebaseUser?,
