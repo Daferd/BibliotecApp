@@ -61,7 +61,6 @@ class InicioFragment : Fragment() {
                 }
                 librosRVAdapter.notifyDataSetChanged()
             }
-
             override fun onCancelled(error: DatabaseError) {
             }
         }
