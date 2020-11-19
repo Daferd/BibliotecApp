@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentPerfilBinding
 import com.daferarevalo.bibliotecapp.server.Usuario
@@ -63,6 +65,19 @@ class PerfilFragment : Fragment() {
         binding.cerrarSesionButton.setOnClickListener {
             val auth = FirebaseAuth.getInstance().signOut()
             goToLoginActivity()
+        }
+
+        val navController: NavController = Navigation.findNavController(view)
+        binding.misPrestamosButton.setOnClickListener {
+            navController.navigate(R.id.nav_misPrestamos)
+        }
+        //val navController2 : NavController = Navigation.findNavController(view)
+        binding.misReservasButton.setOnClickListener {
+            navController.navigate(R.id.nav_misReservas)
+        }
+        //val navController3 : NavController = Navigation.findNavController(view)
+        binding.misEventosButton.setOnClickListener {
+            navController.navigate(R.id.nav_misEventos)
         }
     }
 

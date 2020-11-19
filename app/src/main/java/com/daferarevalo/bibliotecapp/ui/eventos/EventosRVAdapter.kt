@@ -34,7 +34,10 @@ class EventosRVAdapter(var eventosList: ArrayList<EventoServer>) :
         private val binding = EventosItemBinding.bind(itemView)
 
         fun bindEvento(evento: EventoServer) {
-            binding.tituloEventoEditText.text = evento.titulo
+            binding.tituloEventoTextView.text = evento.titulo
+            binding.ubicacionEventoTextView.text = evento.ubicacion
+            binding.fechaEventoTextView.text = evento.fecha
+            binding.horaEventoTextView.text = evento.hora
         }
     }
 

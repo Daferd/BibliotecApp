@@ -18,7 +18,17 @@
         android:id="@+id/nav_micuenta"
         android:name="com.daferarevalo.bibliotecapp.ui.miperfil.PerfilFragment"
         android:label="@string/mi_cuenta"
-        tools:layout="@layout/fragment_perfil" />
+        tools:layout="@layout/fragment_perfil">
+        <action
+            android:id="@+id/action_nav_micuenta_to_misEventosFragment"
+            app:destination="@id/nav_misEventos" />
+        <action
+            android:id="@+id/action_nav_micuenta_to_misPrestamosFragment"
+            app:destination="@id/nav_misPrestamos" />
+        <action
+            android:id="@+id/action_nav_micuenta_to_misReservasFragment"
+            app:destination="@id/nav_misReservas" />
+    </fragment>
     <fragment
         android:id="@+id/nav_eventos"
         android:name="com.daferarevalo.bibliotecapp.ui.eventos.EventosFragment"
@@ -34,4 +44,20 @@
         android:name="com.daferarevalo.bibliotecapp.ui.libro.LibroFragment"
         android:label="fragment_libro"
         tools:layout="@layout/fragment_libro" />
+    <fragment
+        android:id="@+id/nav_misEventos"
+        android:name="com.daferarevalo.bibliotecapp.ui.misEventos.MisEventosFragment"
+        android:label="fragment_mis_eventos"
+        tools:layout="@layout/fragment_mis_eventos" />
+    <fragment
+        android:id="@+id/nav_misPrestamos"
+        android:name="com.daferarevalo.bibliotecapp.ui.misPrestamos.MisPrestamosFragment"
+        android:label="fragment_mis_prestamos"
+        tools:layout="@layout/fragment_mis_prestamos" />
+    <fragment
+        android:id="@+id/nav_misReservas"
+        android:name="com.daferarevalo.bibliotecapp.ui.misReservas.MisReservasFragment"
+        android:label="fragment_mis_reservas"
+        tools:layout="@layout/fragment_mis_reservas" />
+
 </navigation>

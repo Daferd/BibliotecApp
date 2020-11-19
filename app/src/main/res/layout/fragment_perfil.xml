@@ -115,7 +115,7 @@
                 android:padding="4dp">
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/mis_prestamos_button"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
                     app:icon="@drawable/ic_prestamo" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/mis_reservas_button"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
                     app:icon="@drawable/ic_event" />
 
                 <Button
-                    android:id="@+id/button4"
+                    android:id="@+id/mis_eventos_button"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

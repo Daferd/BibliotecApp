@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.LibrosItemBinding
 import com.daferarevalo.bibliotecapp.server.LibroServer
+import com.squareup.picasso.Picasso
 
 class LibrosRVAdapter(var librosList: ArrayList<LibroServer>) :
     RecyclerView.Adapter<LibrosRVAdapter.LibrosViewHolder>() {
@@ -33,6 +34,7 @@ class LibrosRVAdapter(var librosList: ArrayList<LibroServer>) :
         fun bindLibro(libro: LibroServer) {
             binding.tituloTextView.text = libro.titulo
             binding.autorTextView.text = libro.autor
+            Picasso.get().load(libro.imagen).into(binding.librosImageView)
         }
     }
 }
