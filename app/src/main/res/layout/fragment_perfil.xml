@@ -16,12 +16,13 @@
         tools:context=".ui.miperfil.PerfilFragment">
 
 
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic__add_a_photo" />
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/ic_person"
+            app:civ_border_color="@android:color/darker_gray"
+            app:civ_border_width="1dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nombre_perfil_edit_text_layout"
