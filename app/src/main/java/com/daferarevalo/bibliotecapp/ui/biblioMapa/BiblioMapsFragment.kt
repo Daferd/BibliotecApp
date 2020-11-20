@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.daferarevalo.bibliotecapp.R
+import com.daferarevalo.bibliotecapp.server.BibliotecaServer
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -17,6 +18,10 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PointOfInterest
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class BiblioMapsFragment : Fragment(), GoogleMap.OnPoiClickListener {
 
@@ -37,14 +42,40 @@ class BiblioMapsFragment : Fragment(), GoogleMap.OnPoiClickListener {
 
         googleMap.uiSettings.isZoomControlsEnabled = true
 
-        val samaniego = LatLng(1.336447, -77.592786)
-        googleMap.addMarker(
-            MarkerOptions().position(samaniego)
-                .title("Institucion Educativa Policarpa Salavarrieta").snippet("Biblioteca")
-        )
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(samaniego, 16f))
+        CargarDesdeFirebase(googleMap)
+    }
 
-        val simonBolivar = LatLng(1.336903, -77.592024)
+
+    private fun CargarDesdeFirebase(googleMap: GoogleMap) {
+
+        val database = FirebaseDatabase.getInstance()
+        val myBibliotecasRef = database.getReference("bibliotecas")
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (dato: DataSnapshot in snapshot.children) {
+                    val bibliotecaServer = dato.getValue(BibliotecaServer::class.java)
+                    bibliotecaServer?.let {
+                        val posicionBiblio =
+                            LatLng(bibliotecaServer.latitud, bibliotecaServer.longitud)
+                        googleMap.addMarker(
+                            MarkerOptions()
+                                .position(posicionBiblio)
+                                .title(bibliotecaServer.titulo)
+                                .snippet(bibliotecaServer.direccion)
+                        )
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posicionBiblio, 16f))
+                    }
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        myBibliotecasRef.addValueEventListener(postListener)
+
+        /*val simonBolivar = LatLng(1.336903, -77.592024)
         googleMap.addMarker(
             MarkerOptions().position(simonBolivar).title("Institución Educativa Simón Bolivar")
                 .snippet("Biblioteca")
@@ -55,7 +86,7 @@ class BiblioMapsFragment : Fragment(), GoogleMap.OnPoiClickListener {
         googleMap.addMarker(
             MarkerOptions().position(cocuyos).title("Biblioteca Publica Cocuyos")
                 .snippet("Biblioteca")
-        )
+        )*/
     }
 
     private fun setUpmap(googleMap: GoogleMap?) {
@@ -79,6 +110,13 @@ class BiblioMapsFragment : Fragment(), GoogleMap.OnPoiClickListener {
         googleMap?.isMyLocationEnabled = true
     }
 
+    override fun onPoiClick(poi: PointOfInterest?) {
+        Toast.makeText(
+            context,
+            "nombre: ${poi?.name}, latitud ${poi?.latLng?.latitude},longitud ${poi?.latLng?.longitude}",
+            Toast.LENGTH_LONG
+        ).show()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -94,11 +132,4 @@ class BiblioMapsFragment : Fragment(), GoogleMap.OnPoiClickListener {
         mapFragment?.getMapAsync(callback)
     }
 
-    override fun onPoiClick(poi: PointOfInterest?) {
-        Toast.makeText(
-            context,
-            "nombre: ${poi?.name}, latitud ${poi?.latLng?.latitude},longitud ${poi?.latLng?.longitude}",
-            Toast.LENGTH_LONG
-        ).show()
-    }
 }

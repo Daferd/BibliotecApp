@@ -35,6 +35,10 @@ class LibrosRVAdapter(var librosList: ArrayList<LibroServer>) :
             binding.tituloTextView.text = libro.titulo
             binding.autorTextView.text = libro.autor
             Picasso.get().load(libro.imagen).into(binding.librosImageView)
+
+            binding.pruebaButton.setOnClickListener {
+                binding.tituloTextView.text = "lalala"
+            }
         }
     }
 }
