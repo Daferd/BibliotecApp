@@ -31,4 +31,5 @@
     <string name="repita_contrasena">Repita contraseña</string>
     <string name="prefieres_ingresar_con_tu_cuenta_de_google">¿Prefieres ingresar con tu cuenta de Google?</string>
     <string name="actualizar">Actualizar</string>
+    <string name="titulo">Titulo</string>
 </resources>

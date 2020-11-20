@@ -74,5 +74,4 @@ class InicioFragment : Fragment() {
         myLibrosRef.addValueEventListener(postListener)
     }
 
-
 }
