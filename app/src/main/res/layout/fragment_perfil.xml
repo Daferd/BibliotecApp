@@ -22,98 +22,33 @@
             android:layout_height="96dp"
             android:src="@drawable/ic_person"
             app:civ_border_color="@android:color/darker_gray"
-            app:civ_border_width="1dp" />
+            app:civ_border_width="1dp"
+            tools:ignore="RedundantNamespace" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/nombre_perfil_edit_text_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_person">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nombre_perfil_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/nombre" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/correo_perfil_edit_text_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_email">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/correo_perfil_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/correo"
-                android:inputType="textEmailAddress" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contrasena_perfil_edit_text_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            app:errorEnabled="true"
-            app:passwordToggleEnabled="true"
-            app:startIconDrawable="@drawable/ic_lock">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/contrasena_perfil_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/contrasena"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/repcontrasena_perfil_edit_text_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_lock">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/repcontrasena_perfil_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/repita_contrasena"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/actualizar_perfil_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="@string/actualizar" />
-
-        <Button
-            android:id="@+id/cerrar_sesion_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/cerrar_sesion" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:elevation="4dp"
             app:cardCornerRadius="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="4dp">
+
+                <Button
+                    android:id="@+id/info_personal_button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="@string/informacion_personal"
+                    android:textAppearance="@style/Theme.BibliotecApp"
+                    android:textSize="18sp"
+                    app:icon="@drawable/ic_person" />
 
                 <Button
                     android:id="@+id/mis_prestamos_button"
@@ -121,7 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:text="Mis prestamos"
+                    android:text="@string/mis_prestamos"
                     android:textAppearance="@style/Theme.BibliotecApp"
                     android:textSize="18sp"
                     app:icon="@drawable/ic_prestamo" />
@@ -132,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:text="Mis reservas"
+                    android:text="@string/mis_reservas"
                     android:textAppearance="@style/Theme.BibliotecApp"
                     android:textSize="18sp"
                     app:icon="@drawable/ic_event" />
@@ -143,12 +78,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:text="Mis eventos"
+                    android:text="@string/mis_eventos"
                     android:textAppearance="@style/Theme.BibliotecApp"
                     android:textSize="18sp"
                     app:icon="@drawable/ic_event" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/cerrar_sesion_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cerrar_sesion" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

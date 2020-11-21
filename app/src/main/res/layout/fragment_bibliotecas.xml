@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Ir al mapa"
+        android:text="@string/ir_al_mapa"
         app:icon="@drawable/ic_location" />
 
 </LinearLayout>

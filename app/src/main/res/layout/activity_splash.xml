@@ -13,5 +13,6 @@
         android:id="@+id/imageView2"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        app:srcCompat="@drawable/ic_logo" />
+        app:srcCompat="@drawable/ic_logo"
+        tools:ignore="ContentDescription" />
 </LinearLayout>

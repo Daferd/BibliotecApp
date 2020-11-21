@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:hint="Titulo"
+            android:hint="@string/titulo"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Autor:"
+            android:text="@string/autor"
             android:textColor="@android:color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -61,7 +61,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView5"
             app:layout_constraintTop_toBottomOf="@+id/titulo_text_view"
-            app:layout_constraintVertical_bias="0.2" />
+            app:layout_constraintVertical_bias="0.2"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/prueba_button"

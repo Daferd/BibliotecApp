@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:layout_margin="8dp"
@@ -20,14 +21,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.7"
-            app:srcCompat="@drawable/ic_event" />
+            app:srcCompat="@drawable/ic_event"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/titulo_evento_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:hint="Titulo"
+            android:hint="@string/titulo"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/imageView4"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Fecha:"
+            android:text="@string/fecha"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView4"
             android:textStyle="bold"
@@ -56,14 +58,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/ubicacion_evento_text_view"
-            app:layout_constraintVertical_bias="0.15" />
+            app:layout_constraintVertical_bias="0.15"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Ubicación:"
+            android:text="@string/ubicacion"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView4"
@@ -79,14 +82,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView6"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.40" />
+            app:layout_constraintVertical_bias="0.40"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Hora:"
+            android:text="@string/hora"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView4"
@@ -102,7 +106,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView8"
             app:layout_constraintTop_toBottomOf="@+id/fecha_evento_text_view"
-            app:layout_constraintVertical_bias="0.19999999" />
+            app:layout_constraintVertical_bias="0.19999999"
+            tools:ignore="HardcodedText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

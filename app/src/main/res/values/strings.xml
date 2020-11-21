@@ -32,4 +32,17 @@
     <string name="prefieres_ingresar_con_tu_cuenta_de_google">¿Prefieres ingresar con tu cuenta de Google?</string>
     <string name="actualizar">Actualizar</string>
     <string name="titulo">Titulo</string>
+    <string name="direccion">Direccion:</string>
+    <string name="calle_x_no_y_h">Calle x No y - h</string>
+    <string name="fecha">Fecha:</string>
+    <string name="ubicacion">Ubicación:</string>
+    <string name="hora">Hora:</string>
+    <string name="ir_al_mapa">Ir al mapa</string>
+    <string name="titulo_autor">Título, autor</string>
+    <string name="buscar">Buscar</string>
+    <string name="informacion_personal">Información personal</string>
+    <string name="mis_prestamos">Mis préstamos</string>
+    <string name="mis_reservas">Mis reservas</string>
+    <string name="mis_eventos">Mis eventos</string>
+    <string name="autor">Autor:</string>
 </resources>

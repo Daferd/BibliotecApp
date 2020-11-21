@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_nav_micuenta_to_misReservasFragment"
             app:destination="@id/nav_misReservas" />
+        <action
+            android:id="@+id/action_nav_micuenta_to_informacionPersonalFragment"
+            app:destination="@id/nav_informacionPersonal" />
     </fragment>
     <fragment
         android:id="@+id/nav_eventos"
@@ -68,5 +71,10 @@
             android:id="@+id/action_bibliotecasFragment_to_nav_biblioMapa"
             app:destination="@id/nav_biblioMapa" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_informacionPersonal"
+        android:name="com.daferarevalo.bibliotecapp.ui.miperfil.InformacionPersonalFragment"
+        android:label="Informacion Personal"
+        tools:layout="@layout/fragment_informacion_personal" />
 
 </navigation>
