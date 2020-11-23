@@ -42,18 +42,23 @@ class LibrosRVAdapter(var librosList: ArrayList<LibroServer>) :
             val user = FirebaseAuth.getInstance().currentUser
             user?.let {
                 val uidUsuario = user.uid
-                binding.pruebaButton.setOnClickListener {
-                    reservarLibroEnFirebase(uidUsuario, libro.titulo, libro.autor)
+                binding.reservarButton.setOnClickListener {
+                    reservarLibroEnFirebase(uidUsuario, libro.titulo, libro.autor, libro.imagen)
                 }
             }
         }
 
-        private fun reservarLibroEnFirebase(uidUsuario: String, titulo: String, autor: String) {
+        private fun reservarLibroEnFirebase(
+            uidUsuario: String,
+            titulo: String,
+            autor: String,
+            imagen: String
+        ) {
             val database = FirebaseDatabase.getInstance()
             val myReservaRef = database.getReference("usuarios")
 
             val id = myReservaRef.push().key.toString()
-            val reservasUsuarioServer = ReservasUsuarioServer(titulo, autor)
+            val reservasUsuarioServer = ReservasUsuarioServer(titulo, autor, imagen)
 
             uidUsuario.let {
                 myReservaRef.child(uidUsuario).child("reservas").child(id)

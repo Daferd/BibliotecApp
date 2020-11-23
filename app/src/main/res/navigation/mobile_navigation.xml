@@ -55,7 +55,7 @@
     <fragment
         android:id="@+id/nav_misReservas"
         android:name="com.daferarevalo.bibliotecapp.ui.misReservas.MisReservasFragment"
-        android:label="fragment_mis_reservas"
+        android:label="@string/mis_reservas"
         tools:layout="@layout/fragment_mis_reservas" />
     <fragment
         android:id="@+id/nav_biblioMapa"
