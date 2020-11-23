@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.LibrosItemBinding
 import com.daferarevalo.bibliotecapp.server.LibroServer
+import com.daferarevalo.bibliotecapp.server.ReservasUsuarioServer
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 
 class LibrosRVAdapter(var librosList: ArrayList<LibroServer>) :
@@ -36,9 +39,29 @@ class LibrosRVAdapter(var librosList: ArrayList<LibroServer>) :
             binding.autorTextView.text = libro.autor
             Picasso.get().load(libro.imagen).into(binding.librosImageView)
 
-            binding.pruebaButton.setOnClickListener {
-                binding.tituloTextView.text = "lalala"
+            val user = FirebaseAuth.getInstance().currentUser
+            user?.let {
+                val uidUsuario = user.uid
+                binding.pruebaButton.setOnClickListener {
+                    reservarLibroEnFirebase(uidUsuario, libro.titulo, libro.autor)
+                }
             }
         }
+
+        private fun reservarLibroEnFirebase(uidUsuario: String, titulo: String, autor: String) {
+            val database = FirebaseDatabase.getInstance()
+            val myReservaRef = database.getReference("usuarios")
+
+            val id = myReservaRef.push().key.toString()
+            val reservasUsuarioServer = ReservasUsuarioServer(titulo, autor)
+
+            uidUsuario.let {
+                myReservaRef.child(uidUsuario).child("reservas").child(id)
+                    .setValue(reservasUsuarioServer)
+            }
+
+        }
     }
+
+
 }

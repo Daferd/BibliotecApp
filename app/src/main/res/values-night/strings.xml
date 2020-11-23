@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="correo">Correo</string>
     <string name="olvidaste_tu_contrasena">¿Olvidaste tu contraseña?</string>
     <string name="registrar">Registrar</string>
@@ -19,10 +19,12 @@
     <string name="ubicacion">Ubicación:</string>
     <string name="hora">Hora:</string>
     <string name="ir_al_mapa">Ir al mapa</string>
-    <string name="titulo_autor">Título, autor</string>
+    <string name="titulo_autor" tools:ignore="Typos">Título, autor</string>
     <string name="informacion_personal">Información personal</string>
     <string name="mis_prestamos">Mis préstamos</string>
     <string name="mis_reservas">Mis reservas</string>
     <string name="mis_eventos">Mis eventos</string>
-    <string name="autor">Autor:</string>
+    <string name="autor" tools:ignore="Typos">Autor:</string>
+    <string name="asistire">Asistire</string>
+    <string name="reservar">Reservar</string>
 </resources>

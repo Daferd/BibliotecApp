@@ -1,6 +1,13 @@
 package com.daferarevalo.bibliotecapp.ui.miperfil
 
+import android.annotation.SuppressLint
+import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +27,8 @@ import com.google.firebase.database.ValueEventListener
 class InformacionPersonalFragment : Fragment() {
     private lateinit var binding: FragmentInformacionPersonalBinding
 
+    private val REQUEST_IMAGE_CAPTURE = 1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +41,11 @@ class InformacionPersonalFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentInformacionPersonalBinding.bind(view)
+
+        binding.perfilImage.setOnClickListener {
+            cargarImagen()
+        }
+
 
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
@@ -51,6 +65,48 @@ class InformacionPersonalFragment : Fragment() {
                 actualizarContrasenaFirebase(nuevaContrasena, user)
                 actualizarDatabaseFirebase(nuevoNombre, nuevoCorreo, uidUsuario)
                 //actualizarDatabaseFirebase(nuevoNombre,nuevoCorreo)
+            }
+        }
+    }
+
+    private fun cargarImagen() {
+
+        //val opciones = arrayListOf<String>("Tomar foto","Cargar imagen","Cancelar")
+        val alertOpciones = AlertDialog.Builder(context)
+        alertOpciones.setTitle("Seleccione un opción")
+        alertOpciones.setPositiveButton("Tomar foto") { dialogInterface: DialogInterface, i: Int ->
+            dispatchTakePictureIntent()
+        }
+        alertOpciones.setNegativeButton("Cargar imagen") { dialogInterface: DialogInterface, i: Int ->
+            /* val intent = Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+             intent.setType("image/")
+             band = true
+             startActivityForResult(intent,10)*/
+            Toast.makeText(context, "cargar foto", Toast.LENGTH_SHORT).show()
+        }
+        alertOpciones.show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            /*if (band==true){
+                val path : Uri? = data?.getData()
+                binding.perfilImage.setImageURI(path)
+            } else {
+                val imageBitmap:Bitmap= data?.extras?.get("data") as Bitmap
+                binding.perfilImage.setImageBitmap(imageBitmap)
+            }*/
+            val imageBitmap: Bitmap = data?.extras?.get("data") as Bitmap
+            binding.perfilImage.setImageBitmap(imageBitmap)
+        }
+    }
+
+    @SuppressLint("QueryPermissionsNeeded")
+    private fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(requireActivity().packageManager)?.also {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
             }
         }
     }
