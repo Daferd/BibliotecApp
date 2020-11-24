@@ -61,14 +61,15 @@ class RegistroActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveImage() {
+    private fun saveImage(correo: String, nombre: String, uid: String?) {
         val storage = FirebaseStorage.getInstance()
-        val photoRef: StorageReference = storage.reference.child("usuarios")
+        val photoRef: StorageReference = storage.reference.child("usuarios").child(uid.toString())
 
         binding.registroImageView.isDrawingCacheEnabled = true
         binding.registroImageView.buildDrawingCache()
         val bitmap: Bitmap = (binding.registroImageView.drawable as BitmapDrawable).bitmap
         val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data: ByteArray = baos.toByteArray()
 
         val uploadTask: UploadTask = photoRef.putBytes(data)
@@ -84,6 +85,7 @@ class RegistroActivity : AppCompatActivity() {
             }).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val downloadUri: Uri? = task.result
+                    crearUsuarioEnBaseDatos(uid, nombre, correo, downloadUri.toString())
                     //saveUser(downloadUri)
                 } else {
 
@@ -139,7 +141,7 @@ class RegistroActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
                     val uid = auth.currentUser?.uid
-                    crearUsuarioEnBaseDatos(uid, nombre, correo)
+                    saveImage(correo, nombre, uid)
                     //val user = auth.currentUser
 
                 } else {
@@ -153,11 +155,17 @@ class RegistroActivity : AppCompatActivity() {
             }
     }
 
-    private fun crearUsuarioEnBaseDatos(uid: String?, nombre: String, correo: String) {
+    private fun crearUsuarioEnBaseDatos(
+        uid: String?,
+        nombre: String,
+        correo: String,
+        urlFoto: String,
+
+        ) {
         val database = FirebaseDatabase.getInstance()
         val myUsersReference = database.getReference("usuarios")
 
-        val usuario = Usuario(uid, nombre, correo)
+        val usuario = Usuario(uid, nombre, correo, urlFoto)
         uid?.let { myUsersReference.child(uid).setValue(usuario) }
 
         goToLoginActivity()

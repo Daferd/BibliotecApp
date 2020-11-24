@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream
 
 
@@ -70,21 +71,24 @@ class InformacionPersonalFragment : Fragment() {
                 val uidUsuario = user.uid
                 actualizarCorreoFirebase(user, nuevoCorreo)
                 actualizarContrasenaFirebase(nuevaContrasena, user)
-                actualizarDatabaseFirebase(nuevoNombre, nuevoCorreo, uidUsuario)
-                //actualizarDatabaseFirebase(nuevoNombre,nuevoCorreo)
-                saveImage(uidUsuario)
+                saveImage(nuevoNombre, nuevoCorreo, uidUsuario)
             }
         }
     }
 
-    private fun saveImage(uidUsuario: String) {
+    private fun saveImage(
+        nuevoNombre: String,
+        nuevoCorreo: String,
+        uidUsuario: String
+    ) {
         val storage = FirebaseStorage.getInstance()
-        val photoRef: StorageReference = storage.reference.child("usuarios")
+        val photoRef: StorageReference = storage.reference.child("usuarios").child(uidUsuario)
 
         binding.perfilImageView.isDrawingCacheEnabled = true
         binding.perfilImageView.buildDrawingCache()
         val bitmap: Bitmap = (binding.perfilImageView.drawable as BitmapDrawable).bitmap
         val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data: ByteArray = baos.toByteArray()
 
         val uploadTask: UploadTask = photoRef.putBytes(data)
@@ -100,20 +104,17 @@ class InformacionPersonalFragment : Fragment() {
             }).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val downloadUri: Uri? = task.result
-                    saveUser(downloadUri, uidUsuario)
+                    actualizarDatabaseFirebase(
+                        nuevoNombre,
+                        nuevoCorreo,
+                        downloadUri.toString(),
+                        uidUsuario
+                    )
                 } else {
 
                 }
             }
     }
-
-    private fun saveUser(downloadUri: Uri?, uidUsuario: String) {
-        val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("usuarios").child(uidUsuario)
-
-        uidUsuario.let { myRef.child(uidUsuario).child("foto").setValue(downloadUri) }
-    }
-
 
     private fun cargarImagen() {
 
@@ -160,6 +161,7 @@ class InformacionPersonalFragment : Fragment() {
     private fun actualizarDatabaseFirebase(
         nuevoNombre: String,
         nuevoCorreo: String,
+        urlFoto: String,
         uidUsuario: String
     ) {
         val database = FirebaseDatabase.getInstance()
@@ -167,6 +169,7 @@ class InformacionPersonalFragment : Fragment() {
         val childUpdates = HashMap<String, Any>()
         childUpdates["nombre"] = nuevoNombre
         childUpdates["correo"] = nuevoCorreo
+        childUpdates["foto"] = urlFoto
         uidUsuario.let { myUsuarioRef.child(it).updateChildren(childUpdates) }
         Toast.makeText(context, "DataBase actualizada", Toast.LENGTH_SHORT).show()
     }
@@ -212,6 +215,7 @@ class InformacionPersonalFragment : Fragment() {
                     if (usuarioServer?.id.equals(uidUsuario)) {
                         binding.nombrePerfilEditText.setText(usuarioServer?.nombre)
                         binding.correoPerfilEditText.setText(usuarioServer?.correo)
+                        Picasso.get().load(usuarioServer?.foto).into(binding.perfilImageView)
 
                         //correoActual = usuarioServer?.correo
 

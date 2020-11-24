@@ -66,6 +66,5 @@ class PerfilFragment : Fragment() {
     }
 
 
-
     companion object
 }
