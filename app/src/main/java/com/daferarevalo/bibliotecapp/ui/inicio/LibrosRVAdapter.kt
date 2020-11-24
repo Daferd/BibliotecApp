@@ -43,7 +43,9 @@ class LibrosRVAdapter(var librosList: ArrayList<LibroServer>) :
             user?.let {
                 val uidUsuario = user.uid
                 binding.reservarButton.setOnClickListener {
+                    //val intent = Intent(,PopUpLibrosFragment::class.java)
                     reservarLibroEnFirebase(uidUsuario, libro.titulo, libro.autor, libro.imagen)
+                    //Toast.makeText(applicationContext,"Reservado",Toast.LENGTH_SHORT)
                 }
             }
         }

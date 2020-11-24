@@ -6,6 +6,8 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -16,12 +18,18 @@ import androidx.fragment.app.Fragment
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentInformacionPersonalBinding
 import com.daferarevalo.bibliotecapp.server.Usuario
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
+import java.io.ByteArrayOutputStream
 
 
 class InformacionPersonalFragment : Fragment() {
@@ -41,13 +49,12 @@ class InformacionPersonalFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentInformacionPersonalBinding.bind(view)
+        val user = FirebaseAuth.getInstance().currentUser
 
-        binding.perfilImage.setOnClickListener {
+        binding.perfilImageView.setOnClickListener {
             cargarImagen()
         }
 
-
-        val user = FirebaseAuth.getInstance().currentUser
         user?.let {
             val uidUsuario = user.uid
             buscarEnFirebase(uidUsuario)
@@ -65,9 +72,48 @@ class InformacionPersonalFragment : Fragment() {
                 actualizarContrasenaFirebase(nuevaContrasena, user)
                 actualizarDatabaseFirebase(nuevoNombre, nuevoCorreo, uidUsuario)
                 //actualizarDatabaseFirebase(nuevoNombre,nuevoCorreo)
+                saveImage(uidUsuario)
             }
         }
     }
+
+    private fun saveImage(uidUsuario: String) {
+        val storage = FirebaseStorage.getInstance()
+        val photoRef: StorageReference = storage.reference.child("usuarios")
+
+        binding.perfilImageView.isDrawingCacheEnabled = true
+        binding.perfilImageView.buildDrawingCache()
+        val bitmap: Bitmap = (binding.perfilImageView.drawable as BitmapDrawable).bitmap
+        val baos = ByteArrayOutputStream()
+        val data: ByteArray = baos.toByteArray()
+
+        val uploadTask: UploadTask = photoRef.putBytes(data)
+
+        val urlTask: Task<Uri> =
+            uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                return@Continuation photoRef.downloadUrl
+            }).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri: Uri? = task.result
+                    saveUser(downloadUri, uidUsuario)
+                } else {
+
+                }
+            }
+    }
+
+    private fun saveUser(downloadUri: Uri?, uidUsuario: String) {
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("usuarios").child(uidUsuario)
+
+        uidUsuario.let { myRef.child(uidUsuario).child("foto").setValue(downloadUri) }
+    }
+
 
     private fun cargarImagen() {
 
@@ -98,7 +144,7 @@ class InformacionPersonalFragment : Fragment() {
                 binding.perfilImage.setImageBitmap(imageBitmap)
             }*/
             val imageBitmap: Bitmap = data?.extras?.get("data") as Bitmap
-            binding.perfilImage.setImageBitmap(imageBitmap)
+            binding.perfilImageView.setImageBitmap(imageBitmap)
         }
     }
 

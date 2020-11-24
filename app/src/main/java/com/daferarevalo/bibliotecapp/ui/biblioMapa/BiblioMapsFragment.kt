@@ -42,11 +42,11 @@ class BiblioMapsFragment : Fragment(), GoogleMap.OnPoiClickListener {
 
         googleMap.uiSettings.isZoomControlsEnabled = true
 
-        CargarDesdeFirebase(googleMap)
+        CargarMarkersDesdeFirebase(googleMap)
     }
 
 
-    private fun CargarDesdeFirebase(googleMap: GoogleMap) {
+    private fun CargarMarkersDesdeFirebase(googleMap: GoogleMap) {
 
         val database = FirebaseDatabase.getInstance()
         val myBibliotecasRef = database.getReference("bibliotecas")
@@ -75,18 +75,6 @@ class BiblioMapsFragment : Fragment(), GoogleMap.OnPoiClickListener {
         }
         myBibliotecasRef.addValueEventListener(postListener)
 
-        /*val simonBolivar = LatLng(1.336903, -77.592024)
-        googleMap.addMarker(
-            MarkerOptions().position(simonBolivar).title("Institución Educativa Simón Bolivar")
-                .snippet("Biblioteca")
-        )
-        //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(samaniego,16f))
-
-        val cocuyos = LatLng(1.337990, -77.593205)
-        googleMap.addMarker(
-            MarkerOptions().position(cocuyos).title("Biblioteca Publica Cocuyos")
-                .snippet("Biblioteca")
-        )*/
     }
 
     private fun setUpmap(googleMap: GoogleMap?) {

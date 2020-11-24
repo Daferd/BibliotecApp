@@ -47,4 +47,6 @@
     <string name="autor" tools:ignore="Typos">Autor:</string>
     <string name="asistire">Asistire</string>
     <string name="reservar">Reservar</string>
+    <string name="descripcion">Descripción:</string>
+    <string name="categoria">Categoría:</string>
 </resources>

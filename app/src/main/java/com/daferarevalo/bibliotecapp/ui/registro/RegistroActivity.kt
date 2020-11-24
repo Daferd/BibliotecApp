@@ -1,18 +1,33 @@
 package com.daferarevalo.bibliotecapp.ui.registro
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.daferarevalo.bibliotecapp.databinding.ActivityRegistroBinding
 import com.daferarevalo.bibliotecapp.server.Usuario
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
+import java.io.ByteArrayOutputStream
 
 class RegistroActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityRegistroBinding
+    private val REQUEST_IMAGE_CAPTURE = 1
 
     companion object {
         private val TAG = RegistroActivity::class.simpleName
@@ -26,6 +41,10 @@ class RegistroActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
+        binding.registroImageView.setOnClickListener {
+            cargarImagen()
+        }
+
         binding.registrarRegistroButton.setOnClickListener {
             val nombre = binding.nombreRegistroEditText.text.toString()
             val correo = binding.correoRegistroEditText.text.toString()
@@ -38,6 +57,77 @@ class RegistroActivity : AppCompatActivity() {
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
             } else {
                 registroEnFirebase(correo, contrasena, nombre)
+            }
+        }
+    }
+
+    private fun saveImage() {
+        val storage = FirebaseStorage.getInstance()
+        val photoRef: StorageReference = storage.reference.child("usuarios")
+
+        binding.registroImageView.isDrawingCacheEnabled = true
+        binding.registroImageView.buildDrawingCache()
+        val bitmap: Bitmap = (binding.registroImageView.drawable as BitmapDrawable).bitmap
+        val baos = ByteArrayOutputStream()
+        val data: ByteArray = baos.toByteArray()
+
+        val uploadTask: UploadTask = photoRef.putBytes(data)
+
+        val urlTask: Task<Uri> =
+            uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                return@Continuation photoRef.downloadUrl
+            }).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri: Uri? = task.result
+                    //saveUser(downloadUri)
+                } else {
+
+                }
+            }
+    }
+
+    private fun cargarImagen() {
+        //val opciones = arrayListOf<String>("Tomar foto","Cargar imagen","Cancelar")
+        val alertOpciones = AlertDialog.Builder(this)
+        alertOpciones.setTitle("Seleccione un opción")
+        alertOpciones.setPositiveButton("Tomar foto") { dialogInterface: DialogInterface, i: Int ->
+            dispatchTakePictureIntent()
+        }
+        alertOpciones.setNegativeButton("Cargar imagen") { dialogInterface: DialogInterface, i: Int ->
+            /* val intent = Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+             intent.setType("image/")
+             band = true
+             startActivityForResult(intent,10)*/
+            Toast.makeText(this, "cargar foto", Toast.LENGTH_SHORT).show()
+        }
+        alertOpciones.show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            /*if (band==true){
+                val path : Uri? = data?.getData()
+                binding.perfilImage.setImageURI(path)
+            } else {
+                val imageBitmap:Bitmap= data?.extras?.get("data") as Bitmap
+                binding.perfilImage.setImageBitmap(imageBitmap)
+            }*/
+            val imageBitmap: Bitmap = data?.extras?.get("data") as Bitmap
+            binding.registroImageView.setImageBitmap(imageBitmap)
+        }
+    }
+
+    @SuppressLint("QueryPermissionsNeeded")
+    private fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(this.packageManager)?.also {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
             }
         }
     }
