@@ -8,6 +8,7 @@ import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.LibrosItemBinding
 import com.daferarevalo.bibliotecapp.server.LibroServer
 import com.daferarevalo.bibliotecapp.server.ReservasUsuarioServer
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 
@@ -49,7 +50,7 @@ class LibrosRVAdapter(
                 onItemClickListener.onItemClick(libro)
             }
 
-            /*val user = FirebaseAuth.getInstance().currentUser
+            val user = FirebaseAuth.getInstance().currentUser
             user?.let {
                 val uidUsuario = user.uid
                 binding.reservarButton.setOnClickListener {
@@ -57,7 +58,7 @@ class LibrosRVAdapter(
                     reservarLibroEnFirebase(uidUsuario, libro.titulo, libro.autor, libro.imagen)
                     //Toast.makeText(applicationContext,"Reservado",Toast.LENGTH_SHORT)
                 }
-            }*/
+            }
         }
 
         private fun reservarLibroEnFirebase(

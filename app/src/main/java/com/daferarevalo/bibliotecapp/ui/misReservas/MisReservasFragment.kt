@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentMisReservasBinding
 import com.daferarevalo.bibliotecapp.server.LibroServer
@@ -16,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class MisReservasFragment : Fragment() {
+class MisReservasFragment : Fragment(), LibrosRVAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentMisReservasBinding
 
@@ -29,6 +32,29 @@ class MisReservasFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mis_reservas, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+
+        binding = FragmentMisReservasBinding.bind(view)
+
+        binding.librosRecyclerView.layoutManager =
+            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        binding.librosRecyclerView.setHasFixedSize(true)
+
+        librosRVAdapter =
+            LibrosRVAdapter(librosList as ArrayList<LibroServer>, this@MisReservasFragment)
+
+        binding.librosRecyclerView.adapter = librosRVAdapter
+
+        cargarDesdeFirebase()
+
+        librosRVAdapter.notifyDataSetChanged()
+
+
     }
 
     private fun cargarDesdeFirebase() {
@@ -58,6 +84,11 @@ class MisReservasFragment : Fragment() {
         }
 
 
+    }
+
+    override fun onItemClick(libro: LibroServer) {
+        val action = MisReservasFragmentDirections.actionNavMisReservasToNavDetalleLibro(libro)
+        findNavController().navigate(action)
     }
 
 }
