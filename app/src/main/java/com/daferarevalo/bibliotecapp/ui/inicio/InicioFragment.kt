@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,7 @@ class InicioFragment : Fragment(), LibrosRVAdapter.OnItemClickListener {
 
     private var librosList: MutableList<LibroServer> = mutableListOf()
     private lateinit var librosRVAdapter: LibrosRVAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +47,19 @@ class InicioFragment : Fragment(), LibrosRVAdapter.OnItemClickListener {
 
         cargarDesdeFirebase()
 
-        librosRVAdapter.notifyDataSetChanged()
+        binding.librosSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                librosRVAdapter.filter.filter(newText)
+                return false
+            }
+
+        })
+
+        //librosRVAdapter.notifyDataSetChanged()
 
         /*val navController: NavController = Navigation.findNavController(view)
         binding.button.setOnClickListener {
