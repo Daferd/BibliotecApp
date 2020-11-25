@@ -11,8 +11,8 @@
         android:label="@string/inicio"
         tools:layout="@layout/fragment_inicio">
         <action
-            android:id="@+id/action_nav_inicio_to_nav_libro"
-            app:destination="@id/nav_libro" />
+            android:id="@+id/action_nav_inicio_to_nav_detalle_libro"
+            app:destination="@id/nav_detalle_libro" />
     </fragment>
     <fragment
         android:id="@+id/nav_micuenta"
@@ -38,10 +38,14 @@
         android:label="@string/eventos"
         tools:layout="@layout/fragment_eventos" />
     <fragment
-        android:id="@+id/nav_libro"
-        android:name="com.daferarevalo.bibliotecapp.ui.libro.LibroFragment"
-        android:label="fragment_libro"
-        tools:layout="@layout/fragment_libro" />
+        android:id="@+id/nav_detalle_libro"
+        android:name="com.daferarevalo.bibliotecapp.ui.libro.DetalleLibroFragment"
+        android:label="Detalles del libro"
+        tools:layout="@layout/fragment_detalle_libro">
+        <argument
+            android:name="libroSeleccionado"
+            app:argType="com.daferarevalo.bibliotecapp.server.LibroServer" />
+    </fragment>
     <fragment
         android:id="@+id/nav_misEventos"
         android:name="com.daferarevalo.bibliotecapp.ui.misEventos.MisEventosFragment"

@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daferarevalo.bibliotecapp.R
@@ -18,7 +17,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class InicioFragment : Fragment() {
+class InicioFragment : Fragment(), LibrosRVAdapter.OnItemClickListener {
     private lateinit var binding: FragmentInicioBinding
 
     private var librosList: MutableList<LibroServer> = mutableListOf()
@@ -40,7 +39,7 @@ class InicioFragment : Fragment() {
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.librosRecyclerView.setHasFixedSize(true)
 
-        librosRVAdapter = LibrosRVAdapter(librosList as ArrayList<LibroServer>)
+        librosRVAdapter = LibrosRVAdapter(librosList as ArrayList<LibroServer>, this@InicioFragment)
 
         binding.librosRecyclerView.adapter = librosRVAdapter
 
@@ -48,10 +47,10 @@ class InicioFragment : Fragment() {
 
         librosRVAdapter.notifyDataSetChanged()
 
-        val navController: NavController = Navigation.findNavController(view)
+        /*val navController: NavController = Navigation.findNavController(view)
         binding.button.setOnClickListener {
-            navController.navigate(R.id.nav_libro)
-        }
+            navController.navigate(R.id.nav_detalle_libro)
+        }*/
     }
 
     private fun cargarDesdeFirebase() {
@@ -68,10 +67,16 @@ class InicioFragment : Fragment() {
                 }
                 librosRVAdapter.notifyDataSetChanged()
             }
+
             override fun onCancelled(error: DatabaseError) {
             }
         }
         myLibrosRef.addValueEventListener(postListener)
+    }
+
+    override fun onItemClick(libro: LibroServer) {
+        val action = InicioFragmentDirections.actionNavInicioToNavDetalleLibro(libro)
+        findNavController().navigate(action)
     }
 
 }

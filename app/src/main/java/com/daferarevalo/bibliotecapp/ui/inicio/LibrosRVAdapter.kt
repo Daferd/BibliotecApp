@@ -8,17 +8,19 @@ import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.LibrosItemBinding
 import com.daferarevalo.bibliotecapp.server.LibroServer
 import com.daferarevalo.bibliotecapp.server.ReservasUsuarioServer
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 
-class LibrosRVAdapter(var librosList: ArrayList<LibroServer>) :
+class LibrosRVAdapter(
+    var librosList: ArrayList<LibroServer>,
+    val onItemClickListener: OnItemClickListener
+) :
     RecyclerView.Adapter<LibrosRVAdapter.LibrosViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibrosViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.libros_item, parent, false)
-        return LibrosViewHolder(itemView)
+        return LibrosViewHolder(itemView, onItemClickListener)
     }
 
     override fun onBindViewHolder(holder: LibrosViewHolder, position: Int) {
@@ -30,16 +32,24 @@ class LibrosRVAdapter(var librosList: ArrayList<LibroServer>) :
         return librosList.size
     }
 
-    class LibrosViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class LibrosViewHolder(
+        itemView: View,
+        var onItemClickListener: OnItemClickListener
+    ) : RecyclerView.ViewHolder(itemView) {
 
         private val binding = LibrosItemBinding.bind(itemView)
 
         fun bindLibro(libro: LibroServer) {
             binding.tituloTextView.text = libro.titulo
             binding.autorTextView.text = libro.autor
-            Picasso.get().load(libro.imagen).into(binding.librosImageView)
+            if (libro.imagen != "")
+                Picasso.get().load(libro.imagen).into(binding.librosImageView)
 
-            val user = FirebaseAuth.getInstance().currentUser
+            binding.itemCardView.setOnClickListener {
+                onItemClickListener.onItemClick(libro)
+            }
+
+            /*val user = FirebaseAuth.getInstance().currentUser
             user?.let {
                 val uidUsuario = user.uid
                 binding.reservarButton.setOnClickListener {
@@ -47,7 +57,7 @@ class LibrosRVAdapter(var librosList: ArrayList<LibroServer>) :
                     reservarLibroEnFirebase(uidUsuario, libro.titulo, libro.autor, libro.imagen)
                     //Toast.makeText(applicationContext,"Reservado",Toast.LENGTH_SHORT)
                 }
-            }
+            }*/
         }
 
         private fun reservarLibroEnFirebase(
@@ -68,6 +78,10 @@ class LibrosRVAdapter(var librosList: ArrayList<LibroServer>) :
             }
 
         }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(libro: LibroServer)
     }
 
 
