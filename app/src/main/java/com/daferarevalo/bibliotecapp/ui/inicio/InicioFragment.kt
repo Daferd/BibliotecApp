@@ -1,6 +1,7 @@
 package com.daferarevalo.bibliotecapp.ui.inicio
 
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,14 @@ class InicioFragment : Fragment(), LibrosRVAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentInicioBinding.bind(view)
+
+        val medidasVentana: DisplayMetrics = DisplayMetrics()
+        activity?.windowManager?.defaultDisplay?.getMetrics(medidasVentana)
+
+        val ancho = medidasVentana.widthPixels
+        val alto = medidasVentana.heightPixels
+
+        activity?.window?.setLayout(ancho.toInt(), alto.toInt())
 
         binding.librosRecyclerView.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -90,6 +99,8 @@ class InicioFragment : Fragment(), LibrosRVAdapter.OnItemClickListener {
     override fun onItemClick(libro: LibroServer) {
         val action = InicioFragmentDirections.actionNavInicioToNavDetalleLibro(libro)
         findNavController().navigate(action)
+        //val dialog = DetalleDialogFragment()
+        //dialog.show(supp)
     }
 
 }

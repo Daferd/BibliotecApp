@@ -22,6 +22,15 @@ class PopUpLibrosFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val medidasVentana: DisplayMetrics = DisplayMetrics()
+        activity?.windowManager?.defaultDisplay?.getMetrics(medidasVentana)
+
+        val ancho = medidasVentana.widthPixels
+        val alto = medidasVentana.heightPixels
+
+        val nuevoAncho = ancho * 0.85
+        val nuevoAlto = alto * 0.6
+
+        activity?.window?.setLayout(nuevoAncho.toInt(), nuevoAlto.toInt())
 
     }
 

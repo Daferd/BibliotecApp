@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_nav_inicio_to_nav_detalle_libro"
             app:destination="@id/nav_detalle_libro" />
+        <action
+            android:id="@+id/action_nav_inicio_to_detalleDialogFragment"
+            app:destination="@id/detalleDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_micuenta"
@@ -39,7 +42,7 @@
         tools:layout="@layout/fragment_eventos" />
     <fragment
         android:id="@+id/nav_detalle_libro"
-        android:name="com.daferarevalo.bibliotecapp.ui.libro.DetalleLibroFragment"
+        android:name="com.daferarevalo.bibliotecapp.ui.Detallelibro.DetalleLibroFragment"
         android:label="Detalles del libro"
         tools:layout="@layout/fragment_detalle_libro">
         <argument
@@ -84,5 +87,9 @@
         android:name="com.daferarevalo.bibliotecapp.ui.miperfil.InformacionPersonalFragment"
         android:label="Informacion Personal"
         tools:layout="@layout/fragment_informacion_personal" />
+    <dialog
+        android:id="@+id/detalleDialogFragment"
+        android:name="com.daferarevalo.bibliotecapp.ui.detalleDialog.DetalleDialogFragment"
+        android:label="DetalleDialogFragment" />
 
 </navigation>
