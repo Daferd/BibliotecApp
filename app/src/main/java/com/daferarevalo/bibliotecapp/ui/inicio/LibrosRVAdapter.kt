@@ -89,12 +89,10 @@ class LibrosRVAdapter(
             }
         }
 
-
     }
 
     interface OnItemClickListener {
         fun onItemClick(libro: LibroServer)
     }
-
 
 }

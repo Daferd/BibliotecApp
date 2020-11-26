@@ -37,8 +37,6 @@ class MisReservasFragment : Fragment(), LibrosRVAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         binding = FragmentMisReservasBinding.bind(view)
 
         binding.librosRecyclerView.layoutManager =
@@ -53,7 +51,6 @@ class MisReservasFragment : Fragment(), LibrosRVAdapter.OnItemClickListener {
         cargarDesdeFirebase()
 
         librosRVAdapter.notifyDataSetChanged()
-
 
     }
 
@@ -76,19 +73,15 @@ class MisReservasFragment : Fragment(), LibrosRVAdapter.OnItemClickListener {
                     }
                     librosRVAdapter.notifyDataSetChanged()
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                 }
             }
             myLibrosRef.addValueEventListener(postListener)
         }
-
-
     }
 
     override fun onItemClick(libro: LibroServer) {
         val action = MisReservasFragmentDirections.actionNavMisReservasToNavDetalleLibro(libro)
         findNavController().navigate(action)
     }
-
 }

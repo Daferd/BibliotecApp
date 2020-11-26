@@ -1,7 +1,6 @@
 package com.daferarevalo.bibliotecapp.ui.Detallelibro
 
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +30,7 @@ class DetalleLibroFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentDetalleLibroBinding.bind(view)
 
-        val medidasVentana = DisplayMetrics()
+        /*val medidasVentana = DisplayMetrics()
         activity?.windowManager?.defaultDisplay?.getMetrics(medidasVentana)
 
         val ancho = medidasVentana.widthPixels
@@ -40,17 +39,19 @@ class DetalleLibroFragment : Fragment() {
         val nuevoAncho = ancho * 0.85
         val nuevoAlto = alto * 0.6
 
-        activity?.window?.setLayout(nuevoAncho.toInt(), nuevoAlto.toInt())
+        activity?.window?.setLayout(nuevoAncho.toInt(), nuevoAlto.toInt())*/
 
         val args: DetalleLibroFragmentArgs by navArgs()
         val libroDetalle = args.libroSeleccionado
         setDetallesLibro(libroDetalle)
 
+
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
             val uidUsuario = user.uid
             binding.reservarButton.setOnClickListener {
-                //val intent = Intent(,PopUpLibrosFragment::class.java)
+
+                actualizarDatabaseFirebase(libroDetalle.id.toString())
                 reservarLibroEnFirebase(
                     uidUsuario,
                     libroDetalle.titulo,
@@ -63,7 +64,15 @@ class DetalleLibroFragment : Fragment() {
                 Toast.makeText(context, "Reservado", Toast.LENGTH_SHORT).show()
             }
         }
+    }
 
+    private fun actualizarDatabaseFirebase(id: String) {
+        val database = FirebaseDatabase.getInstance()
+        val myUsuarioRef = database.getReference("libros")
+        val childUpdates = HashMap<String, Any>()
+        childUpdates["estado"] = "reservado"
+        id.let { myUsuarioRef.child(it).updateChildren(childUpdates) }
+        Toast.makeText(context, "DataBase actualizada", Toast.LENGTH_SHORT).show()
     }
 
     private fun setDetallesLibro(libroDetalle: LibroServer) {

@@ -1,7 +1,6 @@
 package com.daferarevalo.bibliotecapp.ui.inicio
 
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,13 +37,13 @@ class InicioFragment : Fragment(), LibrosRVAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentInicioBinding.bind(view)
 
-        val medidasVentana: DisplayMetrics = DisplayMetrics()
+        /*val medidasVentana: DisplayMetrics = DisplayMetrics()
         activity?.windowManager?.defaultDisplay?.getMetrics(medidasVentana)
 
         val ancho = medidasVentana.widthPixels
         val alto = medidasVentana.heightPixels
 
-        activity?.window?.setLayout(ancho.toInt(), alto.toInt())
+        activity?.window?.setLayout(ancho.toInt(), alto.toInt())*/
 
         binding.librosRecyclerView.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -60,12 +59,10 @@ class InicioFragment : Fragment(), LibrosRVAdapter.OnItemClickListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 librosRVAdapter.filter.filter(newText)
                 return false
             }
-
         })
 
         //librosRVAdapter.notifyDataSetChanged()

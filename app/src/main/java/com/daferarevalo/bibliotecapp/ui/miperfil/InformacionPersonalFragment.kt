@@ -117,7 +117,6 @@ class InformacionPersonalFragment : Fragment() {
     }
 
     private fun cargarImagen() {
-
         //val opciones = arrayListOf<String>("Tomar foto","Cargar imagen","Cancelar")
         val alertOpciones = AlertDialog.Builder(context)
         alertOpciones.setTitle("Seleccione un opción")
@@ -202,7 +201,6 @@ class InformacionPersonalFragment : Fragment() {
                 }
             }
     }
-
 
     private fun buscarEnFirebase(uidUsuario: String) {
         val database = FirebaseDatabase.getInstance()
