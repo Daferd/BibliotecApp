@@ -9,9 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.LibrosItemBinding
 import com.daferarevalo.bibliotecapp.server.LibroServer
-import com.daferarevalo.bibliotecapp.server.ReservasUsuarioServer
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import java.util.*
 
@@ -90,36 +87,9 @@ class LibrosRVAdapter(
             binding.itemCardView.setOnClickListener {
                 onItemClickListener.onItemClick(libro)
             }
-
-            val user = FirebaseAuth.getInstance().currentUser
-            user?.let {
-                val uidUsuario = user.uid
-                binding.reservarButton.setOnClickListener {
-                    //val intent = Intent(,PopUpLibrosFragment::class.java)
-                    reservarLibroEnFirebase(uidUsuario, libro.titulo, libro.autor, libro.imagen)
-                    //Toast.makeText(applicationContext,"Reservado",Toast.LENGTH_SHORT)
-                }
-            }
         }
 
-        private fun reservarLibroEnFirebase(
-            uidUsuario: String,
-            titulo: String,
-            autor: String,
-            imagen: String
-        ) {
-            val database = FirebaseDatabase.getInstance()
-            val myReservaRef = database.getReference("usuarios")
 
-            val id = myReservaRef.push().key.toString()
-            val reservasUsuarioServer = ReservasUsuarioServer(titulo, autor, imagen)
-
-            uidUsuario.let {
-                myReservaRef.child(uidUsuario).child("reservas").child(id)
-                    .setValue(reservasUsuarioServer)
-            }
-
-        }
     }
 
     interface OnItemClickListener {
