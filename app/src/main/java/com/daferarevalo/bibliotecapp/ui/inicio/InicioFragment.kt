@@ -37,14 +37,6 @@ class InicioFragment : Fragment(), LibrosRVAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentInicioBinding.bind(view)
 
-        /*val medidasVentana: DisplayMetrics = DisplayMetrics()
-        activity?.windowManager?.defaultDisplay?.getMetrics(medidasVentana)
-
-        val ancho = medidasVentana.widthPixels
-        val alto = medidasVentana.heightPixels
-
-        activity?.window?.setLayout(ancho.toInt(), alto.toInt())*/
-
         binding.librosRecyclerView.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.librosRecyclerView.setHasFixedSize(true)
@@ -64,13 +56,6 @@ class InicioFragment : Fragment(), LibrosRVAdapter.OnItemClickListener {
                 return false
             }
         })
-
-        //librosRVAdapter.notifyDataSetChanged()
-
-        /*val navController: NavController = Navigation.findNavController(view)
-        binding.button.setOnClickListener {
-            navController.navigate(R.id.nav_detalle_libro)
-        }*/
     }
 
     private fun cargarDesdeFirebase() {

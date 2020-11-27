@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentDetalleLibroBinding
 import com.daferarevalo.bibliotecapp.server.LibroServer
+import com.daferarevalo.bibliotecapp.server.ReservasUsuarioServer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
@@ -52,16 +53,8 @@ class DetalleLibroFragment : Fragment() {
             binding.reservarButton.setOnClickListener {
 
                 actualizarDatabaseFirebase(libroDetalle.id.toString())
-                reservarLibroEnFirebase(
-                    uidUsuario,
-                    libroDetalle.titulo,
-                    libroDetalle.autor,
-                    libroDetalle.imagen,
-                    libroDetalle.categoria,
-                    libroDetalle.signatura,
-                    libroDetalle.estado
-                )
-                Toast.makeText(context, "Reservado", Toast.LENGTH_SHORT).show()
+                reservarLibroEnFirebase(uidUsuario, libroDetalle)
+                //Toast.makeText(context, "Reservado", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -86,20 +79,14 @@ class DetalleLibroFragment : Fragment() {
 
     private fun reservarLibroEnFirebase(
         uidUsuario: String,
-        titulo: String,
-        autor: String,
-        imagen: String,
-        categoria: String,
-        signatura: String,
-        estado: String
+        libroDetalle: LibroServer
     ) {
         val database = FirebaseDatabase.getInstance()
         val myReservaRef = database.getReference("usuarios")
 
         val id = myReservaRef.push().key.toString()
         val reservasLibroServer =
-            LibroServer(null, titulo, autor, imagen, categoria, signatura, estado)
-
+            ReservasUsuarioServer(id, libroDetalle.titulo, libroDetalle.autor, libroDetalle.imagen)
         uidUsuario.let {
             myReservaRef.child(uidUsuario).child("reservas").child(id)
                 .setValue(reservasLibroServer)
