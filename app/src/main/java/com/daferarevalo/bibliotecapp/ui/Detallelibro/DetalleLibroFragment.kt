@@ -86,9 +86,14 @@ class DetalleLibroFragment : Fragment() {
 
         val id = myReservaRef.push().key.toString()
         val reservasLibroServer =
-            ReservasUsuarioServer(id, libroDetalle.titulo, libroDetalle.autor, libroDetalle.imagen)
+            ReservasUsuarioServer(
+                libroDetalle.id,
+                libroDetalle.titulo,
+                libroDetalle.autor,
+                libroDetalle.imagen
+            )
         uidUsuario.let {
-            myReservaRef.child(uidUsuario).child("reservas").child(id)
+            myReservaRef.child(uidUsuario).child("reservas").child(libroDetalle.id.toString())
                 .setValue(reservasLibroServer)
         }
 
