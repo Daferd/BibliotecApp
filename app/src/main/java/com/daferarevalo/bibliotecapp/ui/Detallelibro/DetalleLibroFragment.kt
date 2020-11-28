@@ -46,13 +46,15 @@ class DetalleLibroFragment : Fragment() {
         val libroDetalle = args.libroSeleccionado
         setDetallesLibro(libroDetalle)
 
-
+        binding.puntuacionLibroRatingBar.setRating(libroDetalle.promedio)
 
 
         binding.puntuacionLibroRatingBar.setOnRatingBarChangeListener { ratingBar, puntuacion, b ->
             Toast.makeText(context, "ud a votado: " + puntuacion, Toast.LENGTH_SHORT).show()
 
             val puntuacionlibro = puntuacion + libroDetalle.puntuacion
+            val cantidadDePuntuaciones = libroDetalle.cantidadDePuntuaciones + 1
+            val promedio = puntuacionlibro / cantidadDePuntuaciones
 
 
             val user = FirebaseAuth.getInstance().currentUser
@@ -61,7 +63,9 @@ class DetalleLibroFragment : Fragment() {
                 actualizarPuntuacionLibroFirebase(
                     uidUsuario,
                     libroDetalle.id.toString(),
-                    puntuacionlibro.toInt()
+                    puntuacionlibro.toInt(),
+                    cantidadDePuntuaciones,
+                    promedio
                 )
                 actualizarPuntuacionUsuarioFirebase(
                     uidUsuario,
@@ -89,12 +93,16 @@ class DetalleLibroFragment : Fragment() {
     private fun actualizarPuntuacionLibroFirebase(
         uidUsuario: String,
         idLibro: String,
-        puntuacion: Int
+        puntuacion: Int,
+        cantidadDePuntuaciones: Int,
+        promedio: Float
     ) {
         val database = FirebaseDatabase.getInstance()
         val myUsuarioRef = database.getReference("libros")
         val childUpdates = HashMap<String, Any>()
         childUpdates["puntuacion"] = puntuacion
+        childUpdates["cantidadDePuntuaciones"] = cantidadDePuntuaciones
+        childUpdates["promedio"] = promedio
         idLibro.let { myUsuarioRef.child(it).updateChildren(childUpdates) }
         Toast.makeText(context, "DataBase actualizada", Toast.LENGTH_SHORT).show()
     }
