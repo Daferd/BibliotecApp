@@ -81,6 +81,7 @@ class LibrosRVAdapter(
         fun bindLibro(libro: LibroServer) {
             binding.tituloTextView.text = libro.titulo
             binding.autorTextView.text = libro.autor
+            binding.puntuacionTextView.text = libro.puntuacion.toString()
             if (libro.imagen != "")
                 Picasso.get().load(libro.imagen).into(binding.librosImageView)
 

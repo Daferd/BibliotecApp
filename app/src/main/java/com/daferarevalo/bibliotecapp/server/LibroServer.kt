@@ -9,6 +9,7 @@ data class LibroServer(
     val imagen: String = "",
     val categoria: String = "",
     val signatura: String = "",
-    val estado: String = ""
+    val estado: String = "",
+    val puntuacion: Int = 0
 ) : Serializable
 

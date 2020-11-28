@@ -213,7 +213,8 @@ class InformacionPersonalFragment : Fragment() {
                     if (usuarioServer?.id.equals(uidUsuario)) {
                         binding.nombrePerfilEditText.setText(usuarioServer?.nombre)
                         binding.correoPerfilEditText.setText(usuarioServer?.correo)
-                        Picasso.get().load(usuarioServer?.foto).into(binding.perfilImageView)
+                        if (usuarioServer?.foto != "")
+                            Picasso.get().load(usuarioServer?.foto).into(binding.perfilImageView)
 
                         //correoActual = usuarioServer?.correo
 

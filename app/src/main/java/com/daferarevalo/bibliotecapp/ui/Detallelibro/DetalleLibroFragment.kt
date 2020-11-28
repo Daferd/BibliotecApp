@@ -47,19 +47,74 @@ class DetalleLibroFragment : Fragment() {
         setDetallesLibro(libroDetalle)
 
 
-        val user = FirebaseAuth.getInstance().currentUser
-        user?.let {
-            val uidUsuario = user.uid
-            binding.reservarButton.setOnClickListener {
 
-                actualizarDatabaseFirebase(libroDetalle.id.toString())
-                reservarLibroEnFirebase(uidUsuario, libroDetalle)
-                //Toast.makeText(context, "Reservado", Toast.LENGTH_SHORT).show()
+
+        binding.puntuacionLibroRatingBar.setOnRatingBarChangeListener { ratingBar, puntuacion, b ->
+            Toast.makeText(context, "ud a votado: " + puntuacion, Toast.LENGTH_SHORT).show()
+
+            val puntuacionlibro = puntuacion + libroDetalle.puntuacion
+
+
+            val user = FirebaseAuth.getInstance().currentUser
+            user?.let {
+                val uidUsuario = user.uid
+                actualizarPuntuacionLibroFirebase(
+                    uidUsuario,
+                    libroDetalle.id.toString(),
+                    puntuacionlibro.toInt()
+                )
+                actualizarPuntuacionUsuarioFirebase(
+                    uidUsuario,
+                    libroDetalle.id.toString(),
+                    puntuacion.toInt()
+                )
             }
+
         }
+
+        binding.reservarButton.setOnClickListener {
+
+            actualizarEstadoDatabaseFirebase(libroDetalle.id.toString())
+
+            val user = FirebaseAuth.getInstance().currentUser
+            user?.let {
+                val uidUsuario = user.uid
+                reservarLibroEnFirebase(uidUsuario, libroDetalle)
+            }
+            //Toast.makeText(context, "Reservado", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
-    private fun actualizarDatabaseFirebase(id: String) {
+    private fun actualizarPuntuacionLibroFirebase(
+        uidUsuario: String,
+        idLibro: String,
+        puntuacion: Int
+    ) {
+        val database = FirebaseDatabase.getInstance()
+        val myUsuarioRef = database.getReference("libros")
+        val childUpdates = HashMap<String, Any>()
+        childUpdates["puntuacion"] = puntuacion
+        idLibro.let { myUsuarioRef.child(it).updateChildren(childUpdates) }
+        Toast.makeText(context, "DataBase actualizada", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun actualizarPuntuacionUsuarioFirebase(
+        uidUsuario: String,
+        idLibro: String,
+        puntuacion: Int
+    ) {
+        val database = FirebaseDatabase.getInstance()
+        val myUsuarioRef = database.getReference("usuarios")
+        val childUpdates = HashMap<String, Any>()
+        childUpdates["puntuacion"] = puntuacion
+        uidUsuario.let {
+            myUsuarioRef.child(it).child("MisReseñas").child(idLibro).updateChildren(childUpdates)
+        }
+        Toast.makeText(context, "DataBase actualizada", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun actualizarEstadoDatabaseFirebase(id: String) {
         val database = FirebaseDatabase.getInstance()
         val myUsuarioRef = database.getReference("libros")
         val childUpdates = HashMap<String, Any>()
@@ -74,7 +129,9 @@ class DetalleLibroFragment : Fragment() {
         binding.categoriaTextView.text = libroDetalle.categoria
         binding.signaturaTextView.text = libroDetalle.signatura
         binding.estadoTextView.text = libroDetalle.estado
-        Picasso.get().load(libroDetalle.imagen).into(binding.librosImageView)
+        if (libroDetalle.imagen != "")
+            Picasso.get().load(libroDetalle.imagen).into(binding.librosImageView)
+
     }
 
     private fun reservarLibroEnFirebase(
@@ -84,7 +141,7 @@ class DetalleLibroFragment : Fragment() {
         val database = FirebaseDatabase.getInstance()
         val myReservaRef = database.getReference("usuarios")
 
-        val id = myReservaRef.push().key.toString()
+        //val id = myReservaRef.push().key.toString()
         val reservasLibroServer =
             ReservasUsuarioServer(
                 libroDetalle.id,
