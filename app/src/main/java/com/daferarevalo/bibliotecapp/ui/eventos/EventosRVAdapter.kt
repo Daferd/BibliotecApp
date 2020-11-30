@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.EventosItemBinding
 import com.daferarevalo.bibliotecapp.server.EventoServer
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class EventosRVAdapter(var eventosList: ArrayList<EventoServer>) :
     RecyclerView.Adapter<EventosRVAdapter.EventosViewHolder>() {
@@ -38,7 +40,55 @@ class EventosRVAdapter(var eventosList: ArrayList<EventoServer>) :
             binding.ubicacionEventoTextView.text = evento.ubicacion
             binding.fechaEventoTextView.text = evento.fecha
             binding.horaEventoTextView.text = evento.hora
+            binding.asistireSwitch.setOnClickListener {
+                if (binding.asistireSwitch.isChecked == true) {
+                    val user = FirebaseAuth.getInstance().currentUser
+                    user?.let {
+                        val uidUsuario = user.uid
+                        asistenciaEventoEnFirebase(
+                            uidUsuario,
+                            evento.id,
+                            evento.titulo,
+                            evento.ubicacion,
+                            evento.fecha,
+                            evento.hora
+                        )
+                    }
+
+                } else {
+
+                }
+            }
         }
+
+        private fun asistenciaEventoEnFirebase(
+            uidUsuario: String,
+            idEvento: String?,
+            titulo: String,
+            ubicacion: String,
+            fecha: String,
+            hora: String
+        ) {
+            val database = FirebaseDatabase.getInstance()
+            val myReservaRef = database.getReference("usuarios")
+
+            //val id = myReservaRef.push().key.toString()
+            val eventosUsuarioServer =
+                EventoServer(
+                    idEvento,
+                    titulo,
+                    fecha,
+                    ubicacion,
+                    hora,
+                    hora
+                )
+            uidUsuario.let {
+                myReservaRef.child(uidUsuario).child("misEventos").child(idEvento.toString())
+                    .setValue(eventosUsuarioServer)
+            }
+
+        }
+
     }
 
 }

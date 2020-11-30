@@ -52,7 +52,7 @@
     <fragment
         android:id="@+id/nav_misEventos"
         android:name="com.daferarevalo.bibliotecapp.ui.misEventos.MisEventosFragment"
-        android:label="fragment_mis_eventos"
+        android:label="Mis eventos"
         tools:layout="@layout/fragment_mis_eventos" />
     <fragment
         android:id="@+id/nav_misPrestamos"

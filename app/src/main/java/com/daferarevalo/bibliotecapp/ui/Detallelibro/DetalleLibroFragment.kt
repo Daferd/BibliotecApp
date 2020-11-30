@@ -85,7 +85,7 @@ class DetalleLibroFragment : Fragment() {
                 val uidUsuario = user.uid
                 reservarLibroEnFirebase(uidUsuario, libroDetalle)
             }
-            //Toast.makeText(context, "Reservado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Reservado", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -104,7 +104,7 @@ class DetalleLibroFragment : Fragment() {
         childUpdates["cantidadDePuntuaciones"] = cantidadDePuntuaciones
         childUpdates["promedio"] = promedio
         idLibro.let { myUsuarioRef.child(it).updateChildren(childUpdates) }
-        Toast.makeText(context, "DataBase actualizada", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Puntuación almacenada", Toast.LENGTH_SHORT).show()
     }
 
     private fun actualizarPuntuacionUsuarioFirebase(
@@ -119,7 +119,7 @@ class DetalleLibroFragment : Fragment() {
         uidUsuario.let {
             myUsuarioRef.child(it).child("MisReseñas").child(idLibro).updateChildren(childUpdates)
         }
-        Toast.makeText(context, "DataBase actualizada", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, "DataBase actualizada", Toast.LENGTH_SHORT).show()
     }
 
     private fun actualizarEstadoDatabaseFirebase(id: String) {
@@ -128,7 +128,7 @@ class DetalleLibroFragment : Fragment() {
         val childUpdates = HashMap<String, Any>()
         childUpdates["estado"] = "reservado"
         id.let { myUsuarioRef.child(it).updateChildren(childUpdates) }
-        Toast.makeText(context, "DataBase actualizada", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, "DataBase actualizada", Toast.LENGTH_SHORT).show()
     }
 
     private fun setDetallesLibro(libroDetalle: LibroServer) {
