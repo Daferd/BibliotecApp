@@ -79,10 +79,11 @@ class InicioFragment : Fragment(), LibrosRVAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(libro: LibroServer) {
-        val action = InicioFragmentDirections.actionNavInicioToNavDetalleLibro(libro)
+        val action = InicioFragmentDirections.actionNavInicioToDetalleDialogFragment(libro)
         findNavController().navigate(action)
         //val dialog = DetalleDialogFragment()
-        //dialog.show(supp)
+        //val ft=supportFragmentManager().beginTransaction()
+        //dialog.show(fragmentManager,"customDialog")
     }
 
 }

@@ -49,10 +49,10 @@ class DetalleLibroFragment : Fragment() {
         binding.puntuacionLibroRatingBar.setRating(libroDetalle.promedio)
 
 
-        binding.puntuacionLibroRatingBar.setOnRatingBarChangeListener { ratingBar, puntuacion, b ->
-            Toast.makeText(context, "ud a votado: " + puntuacion, Toast.LENGTH_SHORT).show()
+        binding.puntuacionLibroRatingBar.setOnRatingBarChangeListener { ratingBar, puntuacionActual, b ->
+            Toast.makeText(context, "ud a votado: " + puntuacionActual, Toast.LENGTH_SHORT).show()
 
-            val puntuacionlibro = puntuacion + libroDetalle.puntuacion
+            val puntuacionlibro = puntuacionActual + libroDetalle.puntuacion
             val cantidadDePuntuaciones = libroDetalle.cantidadDePuntuaciones + 1
             val promedio = puntuacionlibro / cantidadDePuntuaciones
 
@@ -70,10 +70,9 @@ class DetalleLibroFragment : Fragment() {
                 actualizarPuntuacionUsuarioFirebase(
                     uidUsuario,
                     libroDetalle.id.toString(),
-                    puntuacion.toInt()
+                    puntuacionActual.toInt()
                 )
             }
-
         }
 
         binding.reservarButton.setOnClickListener {

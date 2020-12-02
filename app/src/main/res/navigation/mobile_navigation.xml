@@ -90,6 +90,10 @@
     <dialog
         android:id="@+id/detalleDialogFragment"
         android:name="com.daferarevalo.bibliotecapp.ui.detalleDialog.DetalleDialogFragment"
-        android:label="DetalleDialogFragment" />
+        android:label="DetalleDialogFragment">
+        <argument
+            android:name="libroSeleccionado"
+            app:argType="com.daferarevalo.bibliotecapp.server.LibroServer" />
+    </dialog>
 
 </navigation>

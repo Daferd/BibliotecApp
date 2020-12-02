@@ -58,10 +58,28 @@ class LibrosReservadosRVAdapter(
             }
         }
 
+        /*private fun alerta() {
+            //val opciones = arrayListOf<String>("Tomar foto","Cargar imagen","Cancelar")
+            val alertOpciones = AlertDialog.Builder(this)
+            alertOpciones.setTitle("Esta seguro que desea eliminar la reserva")
+            alertOpciones.setPositiveButton("Si") { dialogInterface: DialogInterface, i: Int ->
+                borrarDeFaribase()
+            }
+            alertOpciones.setNegativeButton("No") { dialogInterface: DialogInterface, i: Int ->
+                /* val intent = Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                 intent.setType("image/")
+                 band = true
+                 startActivityForResult(intent,10)*/
+                 dismiss()
+
+                Toast.makeText(context, "cargar foto", Toast.LENGTH_SHORT).show()
+            }
+            alertOpciones.show()
+        }*/
+
         private fun borrarDeFaribase(uidUsuario: String, idLibro: String?) {
 
             //nombreBuscarTextInputLayout.error = null
-
             val database = FirebaseDatabase.getInstance()
             val myDeudoresRef =
                 database.getReference("usuarios").child(uidUsuario).child("reservas")

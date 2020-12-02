@@ -39,6 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:errorEnabled="true"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
             app:startIconDrawable="@drawable/ic_person">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -54,6 +56,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             app:errorEnabled="true"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
             app:startIconDrawable="@drawable/ic_email">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -70,6 +74,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             app:errorEnabled="true"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
             app:startIconDrawable="@drawable/ic_lock">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -86,6 +92,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             app:errorEnabled="true"
+            app:boxCornerRadiusTopEnd="8dp"
+            app:boxCornerRadiusTopStart="8dp"
             app:startIconDrawable="@drawable/ic_lock">
 
             <com.google.android.material.textfield.TextInputEditText
