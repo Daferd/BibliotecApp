@@ -94,6 +94,18 @@
         <argument
             android:name="libroSeleccionado"
             app:argType="com.daferarevalo.bibliotecapp.server.LibroServer" />
+        <action
+            android:id="@+id/action_detalleDialogFragment_to_resenaFragment"
+            app:destination="@id/resenaFragment" />
     </dialog>
+    <fragment
+        android:id="@+id/resenaFragment"
+        android:name="com.daferarevalo.bibliotecapp.ui.detalleDialog.ResenaFragment"
+        android:label="fragment_resena"
+        tools:layout="@layout/fragment_resena">
+        <argument
+            android:name="libroDetalle"
+            app:argType="com.daferarevalo.bibliotecapp.server.LibroServer" />
+    </fragment>
 
 </navigation>

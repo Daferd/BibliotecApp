@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentDetalleDialogBinding
@@ -48,6 +49,14 @@ class DetalleDialogFragment : DialogFragment() {
                 reservarLibroEnFirebase(uidUsuario, libroDetalle)
             }
             Toast.makeText(context, "Reservado", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.anadirResenaButton.setOnClickListener {
+            val action =
+                DetalleDialogFragmentDirections.actionDetalleDialogFragmentToResenaFragment(
+                    libroDetalle
+                )
+            findNavController().navigate(action)
         }
     }
 
