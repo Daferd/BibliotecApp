@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentResenaBinding
+import com.google.firebase.auth.FirebaseAuth
 
 
 class ResenaFragment : Fragment() {
@@ -31,5 +32,15 @@ class ResenaFragment : Fragment() {
         val libroDetalle = args.libroDetalle
 
         binding.tituloEventoTextView.text = libroDetalle.titulo
+
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val nombreUsuario = user.email
+            binding.userTextView.text = nombreUsuario.toString()
+        }
+
+        binding.enviarButton.setOnClickListener {
+
+        }
     }
 }
