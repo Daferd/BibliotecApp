@@ -9,13 +9,18 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentResenaBinding
+import com.daferarevalo.bibliotecapp.server.Usuario
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 
 class ResenaFragment : Fragment() {
 
     private lateinit var binding: FragmentResenaBinding
+    private var nombreUsuario: String = ""
 
     //private var puntuacionlibro : Float = 0.0F
     //private var cantidadDePuntuaciones : Int = 0
@@ -46,10 +51,16 @@ class ResenaFragment : Fragment() {
         binding.tituloEventoTextView.text = libroDetalle.titulo
 
         val user = FirebaseAuth.getInstance().currentUser
+
+
         user?.let {
-            val nombreUsuario = user.email
+
             val uidUsuario = user.uid
-            binding.userTextView.text = nombreUsuario.toString()
+
+            buscarUsuarioEnFirebase(uidUsuario)
+
+
+
 
             binding.resenaRatingBar.setOnRatingBarChangeListener { ratingBar, puntuacion, b ->
                 puntuacionActual = puntuacion.toInt()
@@ -66,9 +77,17 @@ class ResenaFragment : Fragment() {
                     libroDetalle.id.toString(),
                     puntuacionLibro,
                     cantidadDePuntuaciones,
-                    puntuacionPromedio,
-                    comentario
+                    puntuacionPromedio
+                    //comentario
                 )
+
+                agregarComentarioLibroFirebase(
+                    libroDetalle.id.toString(),
+                    nombreUsuario,
+                    comentario,
+                    puntuacionActual
+                )
+
                 /*actualizarPuntuacionUsuarioFirebase(
                      uidUsuario,
                      libroDetalle.id.toString(),
@@ -76,6 +95,43 @@ class ResenaFragment : Fragment() {
                  )*/
                 Toast.makeText(context, "Reseña guardada", Toast.LENGTH_SHORT).show()
             }
+        }
+
+    }
+
+    private fun buscarUsuarioEnFirebase(uidUsuario: String) {
+        val database = FirebaseDatabase.getInstance()
+        val myUsuarioRef = database.getReference("usuarios")
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (data: DataSnapshot in snapshot.children) {
+                    val usuario = data.getValue(Usuario::class.java)
+                    if (usuario?.id == uidUsuario) {
+                        binding.userTextView.text = usuario.nombre
+                        nombreUsuario = usuario.nombre
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        myUsuarioRef.addValueEventListener(postListener)
+    }
+
+    private fun agregarComentarioLibroFirebase(
+        idLibro: String,
+        nombreUsuario: String?,
+        comentario: String,
+        puntuacionActual: Int
+    ) {
+        val database = FirebaseDatabase.getInstance()
+        val myComentarioRef = database.getReference("libros").child(idLibro).child("comentarios")
+
+        nombreUsuario?.let { myComentarioRef.child(it).child("comentario").setValue(comentario) }
+        nombreUsuario?.let {
+            myComentarioRef.child(it).child("puntuacion").setValue(puntuacionActual)
         }
     }
 
@@ -85,7 +141,7 @@ class ResenaFragment : Fragment() {
         puntuacionLibro: Int,
         cantidadDePuntuaciones: Int,
         puntuacionPromedio: Float,
-        comentario: String
+        //comentario: String
     ) {
         val database = FirebaseDatabase.getInstance()
         val myUsuarioRef = database.getReference("libros")
@@ -93,7 +149,7 @@ class ResenaFragment : Fragment() {
         childUpdates["puntuacion"] = puntuacionLibro
         childUpdates["cantidadDePuntuaciones"] = cantidadDePuntuaciones
         childUpdates["promedio"] = puntuacionPromedio
-        childUpdates["comentario"] = comentario
+        //childUpdates["comentario"] = comentario
         idLibro.let { myUsuarioRef.child(it).updateChildren(childUpdates) }
         Toast.makeText(context, "Puntuación almacenada", Toast.LENGTH_SHORT).show()
     }
