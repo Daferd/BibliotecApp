@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentResenaBinding
+import com.daferarevalo.bibliotecapp.server.ComentarioServer
 import com.daferarevalo.bibliotecapp.server.Usuario
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -21,6 +24,9 @@ class ResenaFragment : Fragment() {
 
     private lateinit var binding: FragmentResenaBinding
     private var nombreUsuario: String = ""
+
+    private var comentariosList: MutableList<ComentarioServer> = mutableListOf()
+    private lateinit var comentariosRVAdapter: ComentariosRVAdapter
 
     //private var puntuacionlibro : Float = 0.0F
     //private var cantidadDePuntuaciones : Int = 0
@@ -59,9 +65,6 @@ class ResenaFragment : Fragment() {
 
             buscarUsuarioEnFirebase(uidUsuario)
 
-
-
-
             binding.resenaRatingBar.setOnRatingBarChangeListener { ratingBar, puntuacion, b ->
                 puntuacionActual = puntuacion.toInt()
                 puntuacionLibro = puntuacionActual + libroDetalle.puntuacion
@@ -82,6 +85,7 @@ class ResenaFragment : Fragment() {
                 )
 
                 agregarComentarioLibroFirebase(
+                    uidUsuario,
                     libroDetalle.id.toString(),
                     nombreUsuario,
                     comentario,
@@ -97,6 +101,39 @@ class ResenaFragment : Fragment() {
             }
         }
 
+        binding.comentariosRecyclerView.layoutManager =
+            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        binding.comentariosRecyclerView.setHasFixedSize(true)
+
+        comentariosRVAdapter = ComentariosRVAdapter(comentariosList as ArrayList<ComentarioServer>)
+
+        binding.comentariosRecyclerView.adapter = comentariosRVAdapter
+
+        cargarDesdeFirebase(libroDetalle.id)
+
+        comentariosRVAdapter.notifyDataSetChanged()
+    }
+
+    private fun cargarDesdeFirebase(idLibro: String?) {
+        val database = FirebaseDatabase.getInstance()
+        val myComentarioRef =
+            database.getReference("libros").child(idLibro.toString()).child("comentarios")
+
+        comentariosList.clear()
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (dato: DataSnapshot in snapshot.children) {
+                    val comentarioServer = dato.getValue(ComentarioServer::class.java)
+                    comentarioServer?.let { comentariosList.add(it) }
+                }
+                comentariosRVAdapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        myComentarioRef.addValueEventListener(postListener)
     }
 
     private fun buscarUsuarioEnFirebase(uidUsuario: String) {
@@ -121,6 +158,7 @@ class ResenaFragment : Fragment() {
     }
 
     private fun agregarComentarioLibroFirebase(
+        uidUsuario: String,
         idLibro: String,
         nombreUsuario: String?,
         comentario: String,
@@ -129,10 +167,15 @@ class ResenaFragment : Fragment() {
         val database = FirebaseDatabase.getInstance()
         val myComentarioRef = database.getReference("libros").child(idLibro).child("comentarios")
 
-        nombreUsuario?.let { myComentarioRef.child(it).child("comentario").setValue(comentario) }
-        nombreUsuario?.let {
+        val comentarioServer =
+            ComentarioServer(uidUsuario, nombreUsuario.toString(), comentario, puntuacionActual)
+
+        uidUsuario?.let { myComentarioRef.child(it).setValue(comentarioServer) }
+        /*uidUsuario?.let {
+            myComentarioRef.child(it).child("comentario").setValue(comentario) }
+        uidUsuario?.let {
             myComentarioRef.child(it).child("puntuacion").setValue(puntuacionActual)
-        }
+        }*/
     }
 
     private fun actualizarPuntuacionLibroFirebase(
