@@ -8,7 +8,10 @@ import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.EventosItemBinding
 import com.daferarevalo.bibliotecapp.server.EventoServer
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class EventosRVAdapter(var eventosList: ArrayList<EventoServer>) :
     RecyclerView.Adapter<EventosRVAdapter.EventosViewHolder>() {
@@ -34,17 +37,20 @@ class EventosRVAdapter(var eventosList: ArrayList<EventoServer>) :
     class EventosViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val binding = EventosItemBinding.bind(itemView)
+        private var band = true
 
         fun bindEvento(evento: EventoServer) {
             binding.tituloEventoTextView.text = evento.titulo
             binding.ubicacionEventoTextView.text = evento.ubicacion
             binding.fechaEventoTextView.text = evento.fecha
             binding.horaEventoTextView.text = evento.hora
-            binding.asistireSwitch.setOnClickListener {
-                if (binding.asistireSwitch.isChecked) {
-                    val user = FirebaseAuth.getInstance().currentUser
-                    user?.let {
-                        val uidUsuario = user.uid
+
+            val user = FirebaseAuth.getInstance().currentUser
+            user?.let {
+                val uidUsuario = user.uid
+                buscarEventoUsuario(uidUsuario, evento.id, band)
+                binding.asistireSwitch.setOnClickListener {
+                    if (binding.asistireSwitch.isChecked) {
                         asistenciaEventoEnFirebase(
                             uidUsuario,
                             evento.id,
@@ -53,10 +59,40 @@ class EventosRVAdapter(var eventosList: ArrayList<EventoServer>) :
                             evento.fecha,
                             evento.hora
                         )
+                    } else {
+                        band = false
+                        buscarEventoUsuario(uidUsuario, evento.id, band)
                     }
-
                 }
             }
+        }
+
+        private fun buscarEventoUsuario(uidUsuario: String, idEvento: String?, band: Boolean) {
+            val database = FirebaseDatabase.getInstance()
+            val myEventoUsuarioRef =
+                database.getReference("usuarios").child(uidUsuario).child("misEventos")
+
+            val postListener = object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (data: DataSnapshot in snapshot.children) {
+                        val eventoServer = data.getValue(EventoServer::class.java)
+                        if (eventoServer?.id == idEvento) {
+                            if (band) { //se busca si el evento ya esta checkeado
+                                binding.asistireSwitch.isChecked = true
+                            } else {
+                                eventoServer?.let {
+                                    myEventoUsuarioRef.child(idEvento.toString()).removeValue()
+                                }
+                                this@EventosViewHolder.band = true
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            }
+            myEventoUsuarioRef.addValueEventListener(postListener)
         }
 
         private fun asistenciaEventoEnFirebase(
@@ -70,7 +106,6 @@ class EventosRVAdapter(var eventosList: ArrayList<EventoServer>) :
             val database = FirebaseDatabase.getInstance()
             val myReservaRef = database.getReference("usuarios")
 
-            //val id = myReservaRef.push().key.toString()
             val eventosUsuarioServer =
                 EventoServer(
                     idEvento,

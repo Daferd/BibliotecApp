@@ -72,7 +72,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:backgroundTint="@android:color/holo_orange_light"
                 android:gravity="center"
                 app:icon="@drawable/ic_edit"

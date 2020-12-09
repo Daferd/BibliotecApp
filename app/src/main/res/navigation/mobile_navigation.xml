@@ -86,7 +86,7 @@
     <fragment
         android:id="@+id/resenaFragment"
         android:name="com.daferarevalo.bibliotecapp.ui.detalleDialog.ResenaFragment"
-        android:label="fragment_resena"
+        android:label="Reseña"
         tools:layout="@layout/fragment_resena">
         <argument
             android:name="libroDetalle"

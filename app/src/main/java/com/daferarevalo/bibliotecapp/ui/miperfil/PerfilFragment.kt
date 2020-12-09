@@ -10,8 +10,14 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentPerfilBinding
+import com.daferarevalo.bibliotecapp.server.Usuario
 import com.daferarevalo.bibliotecapp.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
 
 
 class PerfilFragment : Fragment() {
@@ -34,6 +40,11 @@ class PerfilFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPerfilBinding.bind(view)
 
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUsuario = user.uid
+            buscarEnFirebase(uidUsuario)
+        }
 
         val navController: NavController = Navigation.findNavController(view)
 
@@ -57,6 +68,27 @@ class PerfilFragment : Fragment() {
             val auth = FirebaseAuth.getInstance().signOut()
             goToLoginActivity()
         }
+    }
+
+    private fun buscarEnFirebase(uidUsuario: String) {
+        val database = FirebaseDatabase.getInstance()
+        val myUsuariosRef = database.getReference("usuarios")
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (data: DataSnapshot in snapshot.children) {
+                    val usuarioServer = data.getValue(Usuario::class.java)
+                    if (usuarioServer?.id.equals(uidUsuario)) {
+                        if (usuarioServer?.foto != "")
+                            Picasso.get().load(usuarioServer?.foto).into(binding.perfilImageView)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        myUsuariosRef.addValueEventListener(postListener)
     }
 
     private fun goToLoginActivity() {
