@@ -55,15 +55,17 @@ class ResenaFragment : Fragment() {
         val libroDetalle = args.libroDetalle
 
         binding.tituloEventoTextView.text = libroDetalle.titulo
+        binding.editarButton.visibility = View.INVISIBLE
+        binding.borrarButton.visibility = View.INVISIBLE
+
 
         val user = FirebaseAuth.getInstance().currentUser
-
-
         user?.let {
 
             val uidUsuario = user.uid
 
             buscarUsuarioEnFirebase(uidUsuario)
+            buscarComentarioUsuarioEnFirebase(uidUsuario, libroDetalle.id)
 
             binding.resenaRatingBar.setOnRatingBarChangeListener { ratingBar, puntuacion, b ->
                 puntuacionActual = puntuacion.toInt()
@@ -75,29 +77,39 @@ class ResenaFragment : Fragment() {
             binding.enviarButton.setOnClickListener {
 
                 val comentario = binding.comentarioEditText.text.toString()
-                actualizarPuntuacionLibroFirebase(
-                    uidUsuario,
-                    libroDetalle.id.toString(),
-                    puntuacionLibro,
-                    cantidadDePuntuaciones,
-                    puntuacionPromedio
-                    //comentario
-                )
 
-                agregarComentarioLibroFirebase(
-                    uidUsuario,
-                    libroDetalle.id.toString(),
-                    nombreUsuario,
-                    comentario,
-                    puntuacionActual
-                )
+                if (puntuacionActual == 0)
+                    Toast.makeText(context, "Asigne una puntuación al libro", Toast.LENGTH_SHORT)
+                        .show()
+                else if (comentario.isEmpty())
+                    Toast.makeText(context, "Comente el libro", Toast.LENGTH_SHORT).show()
+                else {
+                    actualizarPuntuacionLibroFirebase(
+                        libroDetalle.id.toString(),
+                        puntuacionLibro,
+                        cantidadDePuntuaciones,
+                        puntuacionPromedio
+                    )
 
-                /*actualizarPuntuacionUsuarioFirebase(
+                    agregarComentarioLibroFirebase(
+                        uidUsuario,
+                        libroDetalle.id.toString(),
+                        nombreUsuario,
+                        comentario,
+                        puntuacionActual
+                    )
+
+                    /*actualizarPuntuacionUsuarioFirebase(
                      uidUsuario,
                      libroDetalle.id.toString(),
                      puntuacionActual
-                 )*/
-                Toast.makeText(context, "Reseña guardada", Toast.LENGTH_SHORT).show()
+                    )*/
+                    Toast.makeText(context, "Reseña guardada", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            binding.borrarButton.setOnClickListener {
+
             }
         }
 
@@ -113,6 +125,34 @@ class ResenaFragment : Fragment() {
 
         comentariosRVAdapter.notifyDataSetChanged()
     }
+
+    private fun buscarComentarioUsuarioEnFirebase(uidUsuario: String, idLibro: String?) {
+        val database = FirebaseDatabase.getInstance()
+        val myLibroRef =
+            database.getReference("libros").child(idLibro.toString()).child("comentarios")
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (data: DataSnapshot in snapshot.children) {
+                    val comentario = data.getValue(ComentarioServer::class.java)
+                    if (comentario?.id == uidUsuario) {
+                        binding.resenaRatingBar.isEnabled = false
+                        binding.comentarioEditText.isEnabled = false
+                        binding.comentarioEditText.setText(comentario.comentario)
+                        binding.resenaRatingBar.setRating(comentario.puntuacion.toFloat())
+                        binding.editarButton.visibility = View.VISIBLE
+                        binding.borrarButton.visibility = View.VISIBLE
+                        binding.enviarButton.visibility = View.INVISIBLE
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        myLibroRef.addValueEventListener(postListener)
+    }
+
 
     private fun cargarDesdeFirebase(idLibro: String?) {
         val database = FirebaseDatabase.getInstance()
@@ -171,20 +211,13 @@ class ResenaFragment : Fragment() {
             ComentarioServer(uidUsuario, nombreUsuario.toString(), comentario, puntuacionActual)
 
         uidUsuario?.let { myComentarioRef.child(it).setValue(comentarioServer) }
-        /*uidUsuario?.let {
-            myComentarioRef.child(it).child("comentario").setValue(comentario) }
-        uidUsuario?.let {
-            myComentarioRef.child(it).child("puntuacion").setValue(puntuacionActual)
-        }*/
     }
 
     private fun actualizarPuntuacionLibroFirebase(
-        uidUsuario: String,
         idLibro: String,
         puntuacionLibro: Int,
         cantidadDePuntuaciones: Int,
         puntuacionPromedio: Float,
-        //comentario: String
     ) {
         val database = FirebaseDatabase.getInstance()
         val myUsuarioRef = database.getReference("libros")

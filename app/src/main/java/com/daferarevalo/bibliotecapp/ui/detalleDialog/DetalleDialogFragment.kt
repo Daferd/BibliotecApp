@@ -39,6 +39,7 @@ class DetalleDialogFragment : DialogFragment() {
         setDetallesLibro(libroDetalle)
 
         binding.puntuacionLibroRatingBar.setRating(libroDetalle.promedio)
+        binding.puntuacionLibroRatingBar.isEnabled = false
 
         binding.reservarButton.setOnClickListener {
             actualizarEstadoLibroFirebase(libroDetalle.id.toString())

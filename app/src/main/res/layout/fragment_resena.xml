@@ -63,25 +63,55 @@
                 android:layout_marginBottom="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:hint="Aeñadir reseña.."
+                android:hint="@string/escribe_una_resena"
                 app:layout_constraintTop_toBottomOf="@+id/resena_rating_bar"
                 tools:ignore="Autofill,TextFields" />
+
+            <Button
+                android:id="@+id/editar_button"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@android:color/holo_orange_light"
+                android:gravity="center"
+                app:icon="@drawable/ic_edit"
+                app:layout_constraintStart_toEndOf="@+id/resena_rating_bar"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/borrar_button"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:backgroundTint="@android:color/holo_red_dark"
+                android:gravity="center"
+                app:icon="@drawable/ic_delete"
+                app:layout_constraintBottom_toTopOf="@+id/enviar_button"
+                app:layout_constraintStart_toEndOf="@+id/resena_rating_bar"
+                app:layout_constraintTop_toBottomOf="@+id/editar_button" />
 
             <Button
                 android:id="@+id/enviar_button"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
                 android:gravity="center"
                 app:icon="@drawable/ic_send"
-                app:layout_constraintStart_toEndOf="@+id/comentario_edit_text"
-                app:layout_constraintTop_toBottomOf="@+id/resena_rating_bar" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/resena_rating_bar" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/prueba"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="prueba" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comentarios_recycler_view"

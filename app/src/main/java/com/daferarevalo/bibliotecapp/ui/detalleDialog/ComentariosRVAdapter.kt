@@ -33,6 +33,7 @@ class ComentariosRVAdapter(var comentariosList: ArrayList<ComentarioServer>) :
             binding.usuarioTextView.text = comentario.usuario
             binding.miPuntuacionRatingBar.setRating(comentario.puntuacion.toFloat())
             binding.comentarioTextView.text = comentario.comentario
+            binding.miPuntuacionRatingBar.isEnabled = false
         }
     }
 }
