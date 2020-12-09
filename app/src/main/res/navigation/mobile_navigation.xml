@@ -11,9 +11,6 @@
         android:label="@string/inicio"
         tools:layout="@layout/fragment_inicio">
         <action
-            android:id="@+id/action_nav_inicio_to_nav_detalle_libro"
-            app:destination="@id/nav_detalle_libro" />
-        <action
             android:id="@+id/action_nav_inicio_to_detalleDialogFragment"
             app:destination="@id/detalleDialogFragment" />
     </fragment>
@@ -41,15 +38,6 @@
         android:label="@string/eventos"
         tools:layout="@layout/fragment_eventos" />
     <fragment
-        android:id="@+id/nav_detalle_libro"
-        android:name="com.daferarevalo.bibliotecapp.ui.Detallelibro.DetalleLibroFragment"
-        android:label="Detalles del libro"
-        tools:layout="@layout/fragment_detalle_libro">
-        <argument
-            android:name="libroSeleccionado"
-            app:argType="com.daferarevalo.bibliotecapp.server.LibroServer" />
-    </fragment>
-    <fragment
         android:id="@+id/nav_misEventos"
         android:name="com.daferarevalo.bibliotecapp.ui.misEventos.MisEventosFragment"
         android:label="Mis eventos"
@@ -63,11 +51,7 @@
         android:id="@+id/nav_misReservas"
         android:name="com.daferarevalo.bibliotecapp.ui.misReservas.MisReservasFragment"
         android:label="@string/mis_reservas"
-        tools:layout="@layout/fragment_mis_reservas">
-        <action
-            android:id="@+id/action_nav_misReservas_to_nav_detalle_libro"
-            app:destination="@id/nav_detalle_libro" />
-    </fragment>
+        tools:layout="@layout/fragment_mis_reservas" />
     <fragment
         android:id="@+id/nav_biblioMapa"
         android:name="com.daferarevalo.bibliotecapp.ui.biblioMapa.BiblioMapsFragment"
@@ -90,7 +74,8 @@
     <dialog
         android:id="@+id/detalleDialogFragment"
         android:name="com.daferarevalo.bibliotecapp.ui.detalleDialog.DetalleDialogFragment"
-        android:label="DetalleDialogFragment">
+        android:label="DetalleDialogFragment"
+        tools:layout="@layout/fragment_detalle_dialog">
         <argument
             android:name="libroSeleccionado"
             app:argType="com.daferarevalo.bibliotecapp.server.LibroServer" />

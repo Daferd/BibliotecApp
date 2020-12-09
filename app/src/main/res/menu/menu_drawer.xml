@@ -22,9 +22,5 @@
             android:icon="@drawable/ic_library_books"
             android:title="@string/bibliotecas" />
 
-        <item
-            android:id="@+id/nav_cerrarSesion"
-            android:icon="@drawable/ic_exit_to_app"
-            android:title="@string/cerrar_sesion" />
     </group>
 </menu>

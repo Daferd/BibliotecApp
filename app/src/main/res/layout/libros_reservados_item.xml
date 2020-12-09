@@ -67,7 +67,7 @@
 
         <Button
             android:id="@+id/eliminar_reserva_button"
-            android:layout_width="70dp"
+            android:layout_width="65dp"
             android:layout_height="50dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"

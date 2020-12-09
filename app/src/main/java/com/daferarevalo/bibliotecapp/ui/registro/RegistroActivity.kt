@@ -87,8 +87,6 @@ class RegistroActivity : AppCompatActivity() {
                     val downloadUri: Uri? = task.result
                     crearUsuarioEnBaseDatos(uid, nombre, correo, downloadUri.toString())
                     //saveUser(downloadUri)
-                } else {
-
                 }
             }
     }

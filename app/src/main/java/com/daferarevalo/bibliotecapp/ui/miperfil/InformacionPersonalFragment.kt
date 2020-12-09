@@ -110,8 +110,6 @@ class InformacionPersonalFragment : Fragment() {
                         downloadUri.toString(),
                         uidUsuario
                     )
-                } else {
-
                 }
             }
     }

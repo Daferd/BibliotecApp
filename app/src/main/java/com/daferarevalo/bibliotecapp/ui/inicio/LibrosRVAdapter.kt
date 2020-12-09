@@ -15,7 +15,7 @@ import java.util.*
 
 class LibrosRVAdapter(
     var librosList: ArrayList<LibroServer>,
-    val onItemClickListener: OnItemClickListener
+    private val onItemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<LibrosRVAdapter.LibrosViewHolder>(), Filterable {
 
     var librosFilterList = ArrayList<LibroServer>()
@@ -44,7 +44,7 @@ class LibrosRVAdapter(
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
                 if (charSearch.isEmpty()) {
-                    librosFilterList = librosList
+                    this@LibrosRVAdapter.librosFilterList = librosList
                 } else {
                     val resultList = ArrayList<LibroServer>()
                     for (row in librosList) {
@@ -54,7 +54,7 @@ class LibrosRVAdapter(
                             resultList.add(row)
                         }
                     }
-                    librosFilterList = resultList
+                    this@LibrosRVAdapter.librosFilterList = resultList
                 }
                 val filterResults = FilterResults()
                 filterResults.values = librosFilterList
@@ -73,7 +73,7 @@ class LibrosRVAdapter(
 
     class LibrosViewHolder(
         itemView: View,
-        var onItemClickListener: OnItemClickListener
+        private var onItemClickListener: OnItemClickListener
     ) : RecyclerView.ViewHolder(itemView) {
 
         private val binding = LibrosItemBinding.bind(itemView)

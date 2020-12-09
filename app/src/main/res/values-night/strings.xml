@@ -31,4 +31,10 @@
     <string name="categoria">Categoría:</string>
     <string name="anadir_resena">Añadir reseña</string>
     <string name="escribe_una_resena">Escribe una reseña</string>
+    <string name="comentario">Comentario</string>
+    <string name="signatura">Signatura:</string>
+    <string name="ejemploSignatura">E/14</string>
+    <string name="estado">Estado:</string>
+    <string name="ejemploEstado">Disponible</string>
+    <string name="ejemploPuntos">4.5</string>
 </resources>

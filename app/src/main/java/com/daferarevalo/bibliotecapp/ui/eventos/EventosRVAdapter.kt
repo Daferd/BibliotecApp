@@ -41,7 +41,7 @@ class EventosRVAdapter(var eventosList: ArrayList<EventoServer>) :
             binding.fechaEventoTextView.text = evento.fecha
             binding.horaEventoTextView.text = evento.hora
             binding.asistireSwitch.setOnClickListener {
-                if (binding.asistireSwitch.isChecked == true) {
+                if (binding.asistireSwitch.isChecked) {
                     val user = FirebaseAuth.getInstance().currentUser
                     user?.let {
                         val uidUsuario = user.uid
@@ -54,8 +54,6 @@ class EventosRVAdapter(var eventosList: ArrayList<EventoServer>) :
                             evento.hora
                         )
                     }
-
-                } else {
 
                 }
             }

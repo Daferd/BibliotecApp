@@ -28,6 +28,8 @@ class ResenaFragment : Fragment() {
     private var comentariosList: MutableList<ComentarioServer> = mutableListOf()
     private lateinit var comentariosRVAdapter: ComentariosRVAdapter
 
+    private var band: Boolean = true
+
     //private var puntuacionlibro : Float = 0.0F
     //private var cantidadDePuntuaciones : Int = 0
     //private var promedio : Float = 0.0F
@@ -78,38 +80,56 @@ class ResenaFragment : Fragment() {
 
                 val comentario = binding.comentarioEditText.text.toString()
 
-                if (puntuacionActual == 0)
-                    Toast.makeText(context, "Asigne una puntuación al libro", Toast.LENGTH_SHORT)
+                when {
+                    puntuacionActual == 0 -> Toast.makeText(
+                        context,
+                        "Asigne una puntuación al libro",
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
-                else if (comentario.isEmpty())
-                    Toast.makeText(context, "Comente el libro", Toast.LENGTH_SHORT).show()
-                else {
-                    actualizarPuntuacionLibroFirebase(
-                        libroDetalle.id.toString(),
-                        puntuacionLibro,
-                        cantidadDePuntuaciones,
-                        puntuacionPromedio
-                    )
+                    comentario.isEmpty() -> Toast.makeText(
+                        context,
+                        "Comente el libro",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    else -> {
+                        actualizarPuntuacionLibroFirebase(
+                            libroDetalle.id.toString(),
+                            puntuacionLibro,
+                            cantidadDePuntuaciones,
+                            puntuacionPromedio
+                        )
 
-                    agregarComentarioLibroFirebase(
-                        uidUsuario,
-                        libroDetalle.id.toString(),
-                        nombreUsuario,
-                        comentario,
-                        puntuacionActual
-                    )
+                        agregarComentarioLibroFirebase(
+                            uidUsuario,
+                            libroDetalle.id.toString(),
+                            nombreUsuario,
+                            comentario,
+                            puntuacionActual
+                        )
 
-                    /*actualizarPuntuacionUsuarioFirebase(
-                     uidUsuario,
-                     libroDetalle.id.toString(),
-                     puntuacionActual
-                    )*/
-                    Toast.makeText(context, "Reseña guardada", Toast.LENGTH_SHORT).show()
+                        /*actualizarPuntuacionUsuarioFirebase(
+                                 uidUsuario,
+                                 libroDetalle.id.toString(),
+                                 puntuacionActual
+                                )*/
+                        Toast.makeText(context, "Reseña guardada", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
             binding.borrarButton.setOnClickListener {
+                band = false
+                buscarComentarioUsuarioEnFirebase(uidUsuario, libroDetalle.id)
+                Toast.makeText(context, "Comentario eliminado", Toast.LENGTH_SHORT).show()
+            }
 
+            binding.editarButton.setOnClickListener {
+                binding.resenaRatingBar.isEnabled = true
+                binding.comentarioEditText.isEnabled = true
+                binding.enviarButton.visibility = View.VISIBLE
+                binding.editarButton.visibility = View.INVISIBLE
+                binding.borrarButton.visibility = View.INVISIBLE
             }
         }
 
@@ -126,7 +146,11 @@ class ResenaFragment : Fragment() {
         comentariosRVAdapter.notifyDataSetChanged()
     }
 
-    private fun buscarComentarioUsuarioEnFirebase(uidUsuario: String, idLibro: String?) {
+
+    private fun buscarComentarioUsuarioEnFirebase(
+        uidUsuario: String,
+        idLibro: String?,
+    ) {
         val database = FirebaseDatabase.getInstance()
         val myLibroRef =
             database.getReference("libros").child(idLibro.toString()).child("comentarios")
@@ -134,15 +158,24 @@ class ResenaFragment : Fragment() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (data: DataSnapshot in snapshot.children) {
-                    val comentario = data.getValue(ComentarioServer::class.java)
-                    if (comentario?.id == uidUsuario) {
-                        binding.resenaRatingBar.isEnabled = false
-                        binding.comentarioEditText.isEnabled = false
-                        binding.comentarioEditText.setText(comentario.comentario)
-                        binding.resenaRatingBar.setRating(comentario.puntuacion.toFloat())
-                        binding.editarButton.visibility = View.VISIBLE
-                        binding.borrarButton.visibility = View.VISIBLE
-                        binding.enviarButton.visibility = View.INVISIBLE
+                    val comentarioServer = data.getValue(ComentarioServer::class.java)
+
+                    if (comentarioServer?.id == uidUsuario) {
+                        if (band) {
+                            binding.resenaRatingBar.isEnabled = false
+                            binding.comentarioEditText.isEnabled = false
+                            binding.comentarioEditText.setText(comentarioServer.comentario)
+                            binding.resenaRatingBar.rating = comentarioServer.puntuacion.toFloat()
+                            binding.editarButton.visibility = View.VISIBLE
+                            binding.borrarButton.visibility = View.VISIBLE
+                            binding.enviarButton.visibility = View.INVISIBLE
+                        } else {
+                            comentarioServer.let {
+                                myLibroRef.child(uidUsuario).removeValue()
+                            }
+                            band = true
+                        }
+
                     }
                 }
             }
@@ -210,7 +243,7 @@ class ResenaFragment : Fragment() {
         val comentarioServer =
             ComentarioServer(uidUsuario, nombreUsuario.toString(), comentario, puntuacionActual)
 
-        uidUsuario?.let { myComentarioRef.child(it).setValue(comentarioServer) }
+        uidUsuario.let { myComentarioRef.child(it).setValue(comentarioServer) }
     }
 
     private fun actualizarPuntuacionLibroFirebase(
@@ -225,7 +258,6 @@ class ResenaFragment : Fragment() {
         childUpdates["puntuacion"] = puntuacionLibro
         childUpdates["cantidadDePuntuaciones"] = cantidadDePuntuaciones
         childUpdates["promedio"] = puntuacionPromedio
-        //childUpdates["comentario"] = comentario
         idLibro.let { myUsuarioRef.child(it).updateChildren(childUpdates) }
         Toast.makeText(context, "Puntuación almacenada", Toast.LENGTH_SHORT).show()
     }

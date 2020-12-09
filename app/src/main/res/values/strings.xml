@@ -7,7 +7,7 @@
     <string name="registrar">Registrar</string>
     <string name="registro">Registro</string>
     <string name="nombre">Nombre</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_drawer">DrawerActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -51,4 +51,10 @@
     <string name="categoria">Categoría:</string>
     <string name="anadir_resena">Añadir reseña</string>
     <string name="escribe_una_resena">Escribe una reseña…</string>
+    <string name="comentario">Comentario</string>
+    <string name="signatura">Signatura:</string>
+    <string name="ejemploSignatura">E/14</string>
+    <string name="estado">Estado:</string>
+    <string name="ejemploEstado">Disponible</string>
+    <string name="ejemploPuntos">4.5</string>
 </resources>
