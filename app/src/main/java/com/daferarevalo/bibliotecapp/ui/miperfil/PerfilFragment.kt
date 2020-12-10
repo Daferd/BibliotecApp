@@ -24,10 +24,6 @@ class PerfilFragment : Fragment() {
 
     private lateinit var binding: FragmentPerfilBinding
 
-    //private val TAG = PerfilFragment::class.java.simpleName
-
-    //private var correoActual: String? = ""
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,11 +51,11 @@ class PerfilFragment : Fragment() {
         binding.misPrestamosButton.setOnClickListener {
             navController.navigate(R.id.nav_misPrestamos)
         }
-        //val navController2 : NavController = Navigation.findNavController(view)
+
         binding.misReservasButton.setOnClickListener {
             navController.navigate(R.id.nav_misReservas)
         }
-        //val navController3 : NavController = Navigation.findNavController(view)
+
         binding.misEventosButton.setOnClickListener {
             navController.navigate(R.id.nav_misEventos)
         }
@@ -97,6 +93,4 @@ class PerfilFragment : Fragment() {
         //finish()
     }
 
-
-    companion object
 }

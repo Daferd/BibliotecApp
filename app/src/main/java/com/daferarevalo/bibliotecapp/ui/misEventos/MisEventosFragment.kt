@@ -75,7 +75,7 @@ class MisEventosFragment : Fragment() {
                 override fun onCancelled(error: DatabaseError) {
                 }
             }
-            myEventosUsuarioRef.addValueEventListener(postListener)
+            myEventosUsuarioRef.addListenerForSingleValueEvent(postListener)
         }
     }
 

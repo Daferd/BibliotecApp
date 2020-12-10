@@ -92,7 +92,7 @@ class EventosRVAdapter(var eventosList: ArrayList<EventoServer>) :
                 override fun onCancelled(error: DatabaseError) {
                 }
             }
-            myEventoUsuarioRef.addValueEventListener(postListener)
+            myEventoUsuarioRef.addListenerForSingleValueEvent(postListener)
         }
 
         private fun asistenciaEventoEnFirebase(

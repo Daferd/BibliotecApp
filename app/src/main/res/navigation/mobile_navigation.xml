@@ -51,7 +51,11 @@
         android:id="@+id/nav_misReservas"
         android:name="com.daferarevalo.bibliotecapp.ui.misReservas.MisReservasFragment"
         android:label="@string/mis_reservas"
-        tools:layout="@layout/fragment_mis_reservas" />
+        tools:layout="@layout/fragment_mis_reservas">
+        <action
+            android:id="@+id/action_nav_misReservas_to_reservasDialogFragment"
+            app:destination="@id/reservasDialogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_biblioMapa"
         android:name="com.daferarevalo.bibliotecapp.ui.biblioMapa.BiblioMapsFragment"
@@ -92,5 +96,13 @@
             android:name="libroDetalle"
             app:argType="com.daferarevalo.bibliotecapp.server.LibroServer" />
     </fragment>
+    <dialog
+        android:id="@+id/reservasDialogFragment"
+        android:name="com.daferarevalo.bibliotecapp.ui.misReservas.ReservasDialogFragment"
+        android:label="ReservasDialogFragment">
+        <argument
+            android:name="reservaSeleccionada"
+            app:argType="com.daferarevalo.bibliotecapp.server.ReservasUsuarioServer" />
+    </dialog>
 
 </navigation>

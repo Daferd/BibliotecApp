@@ -63,7 +63,6 @@ class ResenaFragment : Fragment() {
 
         val user = FirebaseAuth.getInstance().currentUser
         user?.let {
-
             val uidUsuario = user.uid
 
             buscarUsuarioEnFirebase(uidUsuario)
@@ -85,8 +84,7 @@ class ResenaFragment : Fragment() {
                         context,
                         "Asigne una puntuación al libro",
                         Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    ).show()
                     comentario.isEmpty() -> Toast.makeText(
                         context,
                         "Comente el libro",
@@ -206,7 +204,7 @@ class ResenaFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
             }
         }
-        myComentarioRef.addValueEventListener(postListener)
+        myComentarioRef.addListenerForSingleValueEvent(postListener)
     }
 
     private fun buscarUsuarioEnFirebase(uidUsuario: String) {

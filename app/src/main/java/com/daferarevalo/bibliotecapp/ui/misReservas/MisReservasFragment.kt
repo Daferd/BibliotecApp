@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daferarevalo.bibliotecapp.R
@@ -17,7 +18,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class MisReservasFragment : Fragment() {
+class MisReservasFragment : Fragment(), LibrosReservadosRVAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentMisReservasBinding
 
@@ -42,7 +43,10 @@ class MisReservasFragment : Fragment() {
         binding.librosRecyclerView.setHasFixedSize(true)
 
         librosReservadosRVAdapter =
-            LibrosReservadosRVAdapter(reservasUsuarioList as ArrayList<ReservasUsuarioServer>)
+            LibrosReservadosRVAdapter(
+                reservasUsuarioList as ArrayList<ReservasUsuarioServer>,
+                this@MisReservasFragment
+            )
 
         binding.librosRecyclerView.adapter = librosReservadosRVAdapter
 
@@ -72,11 +76,18 @@ class MisReservasFragment : Fragment() {
                     }
                     librosReservadosRVAdapter.notifyDataSetChanged()
                 }
+
                 override fun onCancelled(error: DatabaseError) {
                 }
             }
-            myReservasUsuarioRef.addValueEventListener(postListener)
+            myReservasUsuarioRef.addListenerForSingleValueEvent(postListener)
         }
+    }
+
+    override fun onItemClick(reservaLibro: ReservasUsuarioServer) {
+        val action =
+            MisReservasFragmentDirections.actionNavMisReservasToReservasDialogFragment(reservaLibro)
+        findNavController().navigate(action)
     }
 
 }

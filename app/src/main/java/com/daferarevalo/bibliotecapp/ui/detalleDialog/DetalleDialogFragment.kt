@@ -1,10 +1,12 @@
 package com.daferarevalo.bibliotecapp.ui.detalleDialog
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -15,6 +17,8 @@ import com.daferarevalo.bibliotecapp.server.ReservasUsuarioServer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class DetalleDialogFragment : DialogFragment() {
 
@@ -29,6 +33,7 @@ class DetalleDialogFragment : DialogFragment() {
         return rootView
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -42,6 +47,7 @@ class DetalleDialogFragment : DialogFragment() {
         binding.puntuacionLibroRatingBar.isEnabled = false
 
         binding.reservarButton.setOnClickListener {
+
             actualizarEstadoLibroFirebase(libroDetalle.id.toString())
 
             val user = FirebaseAuth.getInstance().currentUser
@@ -61,10 +67,14 @@ class DetalleDialogFragment : DialogFragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun reservarLibroEnFirebase(
         uidUsuario: String,
         libroDetalle: LibroServer
     ) {
+
+        val currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE)
+
         val database = FirebaseDatabase.getInstance()
         val myReservaRef = database.getReference("usuarios")
 
@@ -74,6 +84,7 @@ class DetalleDialogFragment : DialogFragment() {
                 libroDetalle.id,
                 libroDetalle.titulo,
                 libroDetalle.autor,
+                currentDateTime,
                 libroDetalle.imagen
             )
         uidUsuario.let {
