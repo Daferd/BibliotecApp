@@ -72,8 +72,11 @@ class DetalleDialogFragment : DialogFragment() {
         uidUsuario: String,
         libroDetalle: LibroServer
     ) {
+        val fechaInicialAux = LocalDateTime.now()
+        val fechaFinalAux = fechaInicialAux.plusDays(2)
 
-        val currentDateTime = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE)
+        val fechaInicial = fechaInicialAux.format(DateTimeFormatter.ISO_DATE)
+        val fechaFinal = fechaFinalAux.format(DateTimeFormatter.ISO_DATE)
 
         val database = FirebaseDatabase.getInstance()
         val myReservaRef = database.getReference("usuarios")
@@ -84,14 +87,14 @@ class DetalleDialogFragment : DialogFragment() {
                 libroDetalle.id,
                 libroDetalle.titulo,
                 libroDetalle.autor,
-                currentDateTime,
+                fechaInicial,
+                fechaFinal,
                 libroDetalle.imagen
             )
         uidUsuario.let {
             myReservaRef.child(uidUsuario).child("reservas").child(libroDetalle.id.toString())
                 .setValue(reservasLibroServer)
         }
-
     }
 
     private fun actualizarEstadoLibroFirebase(id: String) {

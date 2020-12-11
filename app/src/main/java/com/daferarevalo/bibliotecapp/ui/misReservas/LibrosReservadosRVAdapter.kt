@@ -42,6 +42,8 @@ class LibrosReservadosRVAdapter(
         fun bindLibroReservado(reservaLibro: ReservasUsuarioServer) {
             binding.tituloTextView.text = reservaLibro.titulo
             binding.autorTextView.text = reservaLibro.autor
+            binding.fechaInicialTextView.text = reservaLibro.fechaInicial
+            binding.fechaFinalTextView.text = reservaLibro.fechaFinal
             if (reservaLibro.imagen != "")
                 Picasso.get().load(reservaLibro.imagen).into(binding.librosImageView)
 
