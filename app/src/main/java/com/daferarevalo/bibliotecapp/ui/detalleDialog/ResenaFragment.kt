@@ -1,10 +1,12 @@
 package com.daferarevalo.bibliotecapp.ui.detalleDialog
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +20,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class ResenaFragment : Fragment() {
@@ -42,6 +46,7 @@ class ResenaFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_resena, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -106,11 +111,6 @@ class ResenaFragment : Fragment() {
                             puntuacionActual
                         )
 
-                        /*actualizarPuntuacionUsuarioFirebase(
-                                 uidUsuario,
-                                 libroDetalle.id.toString(),
-                                 puntuacionActual
-                                )*/
                         Toast.makeText(context, "Reseña guardada", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -228,6 +228,7 @@ class ResenaFragment : Fragment() {
         myUsuarioRef.addValueEventListener(postListener)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun agregarComentarioLibroFirebase(
         uidUsuario: String,
         idLibro: String,
@@ -238,8 +239,16 @@ class ResenaFragment : Fragment() {
         val database = FirebaseDatabase.getInstance()
         val myComentarioRef = database.getReference("libros").child(idLibro).child("comentarios")
 
+        val fechaComentario = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE)
+
         val comentarioServer =
-            ComentarioServer(uidUsuario, nombreUsuario.toString(), comentario, puntuacionActual)
+            ComentarioServer(
+                uidUsuario,
+                nombreUsuario.toString(),
+                comentario,
+                fechaComentario,
+                puntuacionActual
+            )
 
         uidUsuario.let { myComentarioRef.child(it).setValue(comentarioServer) }
     }

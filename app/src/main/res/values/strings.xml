@@ -57,4 +57,9 @@
     <string name="estado">Estado:</string>
     <string name="ejemploEstado">Disponible</string>
     <string name="ejemploPuntos">4.5</string>
+    <string name="vence">Vence:</string>
+    <string name="esta_seguro_que_quiere_eliminar_esta_reserva">¿Esta seguro que quiere eliminar esta reserva?</string>
+    <string name="no">No</string>
+    <string name="si">Si</string>
+    <string name="ejemploFecha">11/12/2020</string>
 </resources>

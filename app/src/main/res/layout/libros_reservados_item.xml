@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:hint="@string/titulo"
+            android:text="@string/titulo"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -56,13 +56,13 @@
             android:id="@+id/autor_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:hint="Autor libro"
+            android:layout_marginStart="4dp"
+            android:text="Autor libro"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView5"
             app:layout_constraintTop_toBottomOf="@+id/titulo_text_view"
-            app:layout_constraintVertical_bias="0.2"
+            app:layout_constraintVertical_bias="0.203"
             tools:ignore="HardcodedText" />
 
         <ImageView
@@ -78,24 +78,27 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/fecha_inicial_text_view"
+            android:id="@+id/fecha_final_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="TextView"
-            app:layout_constraintStart_toEndOf="@+id/textView5"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/ejemploFecha"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/textView9"
             app:layout_constraintTop_toBottomOf="@+id/autor_text_view" />
 
         <TextView
-            android:id="@+id/fecha_final_text_view"
+            android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="TextView"
-            app:layout_constraintStart_toEndOf="@+id/textView5"
-            app:layout_constraintTop_toBottomOf="@+id/fecha_inicial_text_view" />
+            android:text="@string/vence"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/libros_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

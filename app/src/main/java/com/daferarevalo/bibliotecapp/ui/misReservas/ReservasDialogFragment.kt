@@ -75,6 +75,7 @@ class ReservasDialogFragment : DialogFragment() {
             }
         }
         myDeudoresRef.addListenerForSingleValueEvent(postListener)
+
     }
 
     private fun actualizarDatabaseFirebase(idLibro: String) {
@@ -97,6 +98,6 @@ class ReservasDialogFragment : DialogFragment() {
             override fun onCancelled(error: DatabaseError) {
             }
         }
-        myLibroRef.addValueEventListener(postListener)
+        myLibroRef.addListenerForSingleValueEvent(postListener)
     }
 }

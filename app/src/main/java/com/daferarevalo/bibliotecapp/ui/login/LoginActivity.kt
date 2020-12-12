@@ -9,12 +9,18 @@ import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.ActivityLoginBinding
 import com.daferarevalo.bibliotecapp.ui.drawer.DrawerActivity
 import com.daferarevalo.bibliotecapp.ui.registro.RegistroActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
+
+    private val GOOGLE_SING_IN = 100
 
     companion object {
         private val TAG = RegistroActivity::class.simpleName
@@ -45,6 +51,21 @@ class LoginActivity : AppCompatActivity() {
         binding.registrarLoginButton.setOnClickListener {
             goToRegistroActivity()
         }
+
+        binding.registroGoogleButton.setOnClickListener {
+            val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+            val googleClient = GoogleSignIn.getClient(this, googleConf)
+            googleClient.signOut()
+
+            startActivityForResult(googleClient.signInIntent, GOOGLE_SING_IN)
+
+        }
+
+
     }
 
     private fun loginConFirebase(correo: String, contrasena: String) {
@@ -74,5 +95,38 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent(this, DrawerActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == GOOGLE_SING_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+            try {
+                val account = task.getResult(ApiException::class.java)
+
+                if (account != null) {
+                    val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+                    FirebaseAuth.getInstance().signInWithCredential(credential)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                goToDrawerActivity()
+                            } else {
+                                Toast.makeText(
+                                    baseContext, "Authentication failed.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                }
+            } catch (e: ApiException) {
+                Toast.makeText(
+                    baseContext, "Authentication failed.22",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+        }
     }
 }

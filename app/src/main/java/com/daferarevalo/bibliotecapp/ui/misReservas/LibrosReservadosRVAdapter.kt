@@ -42,7 +42,6 @@ class LibrosReservadosRVAdapter(
         fun bindLibroReservado(reservaLibro: ReservasUsuarioServer) {
             binding.tituloTextView.text = reservaLibro.titulo
             binding.autorTextView.text = reservaLibro.autor
-            binding.fechaInicialTextView.text = reservaLibro.fechaInicial
             binding.fechaFinalTextView.text = reservaLibro.fechaFinal
             if (reservaLibro.imagen != "")
                 Picasso.get().load(reservaLibro.imagen).into(binding.librosImageView)
@@ -50,15 +49,6 @@ class LibrosReservadosRVAdapter(
             binding.itemCardView.setOnClickListener {
                 onItemClickListener.onItemClick(reservaLibro)
             }
-
-            /*binding.eliminarReservaButton.setOnClickListener {
-                actualizarDatabaseFirebase(reservaLibro.id.toString())
-                val user = FirebaseAuth.getInstance().currentUser
-                user?.let {
-                    val uidUsuario = user.uid
-                    borrarDeFaribase(uidUsuario, reservaLibro.id)
-                }
-            }*/
         }
 
     }

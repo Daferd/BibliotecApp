@@ -6,7 +6,6 @@ data class ReservasUsuarioServer(
     val id: String? = "",
     val titulo: String = "",
     val autor: String = "",
-    val fechaInicial: String = "",
     val fechaFinal: String = "",
     val imagen: String = ""
 ) : Serializable
