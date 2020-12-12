@@ -95,7 +95,6 @@ class DetalleDialogFragment : DialogFragment() {
                     }
                 }
             }
-
             override fun onCancelled(error: DatabaseError) {
             }
         }

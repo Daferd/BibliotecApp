@@ -15,6 +15,7 @@ import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentMisReservasBinding
 import com.daferarevalo.bibliotecapp.server.LibroServer
 import com.daferarevalo.bibliotecapp.server.ReservasUsuarioServer
+import com.daferarevalo.bibliotecapp.server.Usuario
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -108,14 +109,15 @@ class MisReservasFragment : Fragment(), LibrosReservadosRVAdapter.OnItemClickLis
     private fun borrarReservaAuto(uidUsuario: String?, idLibro: String?) {
         val database = FirebaseDatabase.getInstance()
         val myUsuariosRef =
-            database.getReference("usuarios").child(uidUsuario.toString()).child("reservas")
+            database.getReference("usuarios")
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (data: DataSnapshot in snapshot.children) {
-                    val reservasUsuarioServer = data.getValue(ReservasUsuarioServer::class.java)
-                    reservasUsuarioServer?.let {
-                        myUsuariosRef.child(idLibro.toString()).removeValue()
+                    val usuario = data.getValue(Usuario::class.java)
+                    usuario?.let {
+                        myUsuariosRef.child(usuario.id.toString()).child("reservas")
+                            .child(idLibro.toString()).removeValue()
                     }
                 }
             }
