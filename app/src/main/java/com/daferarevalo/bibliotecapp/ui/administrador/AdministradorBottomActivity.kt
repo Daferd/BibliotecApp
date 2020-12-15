@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.ActivityAdministradorBottomBinding
+import com.daferarevalo.bibliotecapp.ui.administrador.reservas.ReservasFragment
 
 
 class AdministradorBottomActivity : AppCompatActivity() {

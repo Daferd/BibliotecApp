@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.daferarevalo.bibliotecapp.R
-import com.daferarevalo.bibliotecapp.databinding.LibrosReservadosItemBinding
+import com.daferarevalo.bibliotecapp.databinding.MisReservasItemBinding
 import com.daferarevalo.bibliotecapp.server.ReservasUsuarioServer
 import com.squareup.picasso.Picasso
 import java.util.*
@@ -19,7 +19,7 @@ class LibrosReservadosRVAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibrosReservadosViewHolder {
         val itemView =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.libros_reservados_item, parent, false)
+                .inflate(R.layout.mis_reservas_item, parent, false)
         return LibrosReservadosViewHolder(itemView, onItemClickListener)
     }
 
@@ -37,12 +37,12 @@ class LibrosReservadosRVAdapter(
         private val onItemClickListener: OnItemClickListener
     ) : RecyclerView.ViewHolder(itemView) {
 
-        private val binding = LibrosReservadosItemBinding.bind(itemView)
+        private val binding = MisReservasItemBinding.bind(itemView)
 
         fun bindLibroReservado(reservaLibro: ReservasUsuarioServer) {
             binding.tituloTextView.text = reservaLibro.titulo
             binding.autorTextView.text = reservaLibro.autor
-            binding.fechaFinalTextView.text = reservaLibro.fechaFinal
+            binding.fechaVencimientoTextView.text = reservaLibro.fechaVencimiento
             if (reservaLibro.imagen != "")
                 Picasso.get().load(reservaLibro.imagen).into(binding.librosImageView)
 

@@ -1,4 +1,4 @@
-package com.daferarevalo.bibliotecapp.ui.administrador
+package com.daferarevalo.bibliotecapp.ui.administrador.reservas
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentReservasBinding
 import com.daferarevalo.bibliotecapp.server.LibroServer
+import com.daferarevalo.bibliotecapp.server.ReservasServer
 import com.daferarevalo.bibliotecapp.server.ReservasUsuarioServer
 import com.daferarevalo.bibliotecapp.ui.misReservas.LibrosReservadosRVAdapter
 import com.google.firebase.database.DataSnapshot
@@ -18,11 +19,12 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class ReservasFragment : Fragment(), LibrosReservadosRVAdapter.OnItemClickListener {
+class ReservasFragment : Fragment(), LibrosReservadosRVAdapter.OnItemClickListener,
+    ReservasRVAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentReservasBinding
-    private var reservasList: MutableList<ReservasUsuarioServer> = mutableListOf()
-    private lateinit var reservasRVAdapter: LibrosReservadosRVAdapter
+    private var reservasList: MutableList<ReservasServer> = mutableListOf()
+    private lateinit var reservasRVAdapter: ReservasRVAdapter
 
 
     override fun onCreateView(
@@ -43,8 +45,8 @@ class ReservasFragment : Fragment(), LibrosReservadosRVAdapter.OnItemClickListen
         binding.reservasRecyclerView.setHasFixedSize(true)
 
         reservasRVAdapter =
-            LibrosReservadosRVAdapter(
-                reservasList as ArrayList<ReservasUsuarioServer>,
+            ReservasRVAdapter(
+                reservasList as ArrayList<ReservasServer>,
                 this@ReservasFragment
             )
 
@@ -85,9 +87,9 @@ class ReservasFragment : Fragment(), LibrosReservadosRVAdapter.OnItemClickListen
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (data: DataSnapshot in snapshot.children) {
-                    val reservasUsuarioServer = data.getValue(ReservasUsuarioServer::class.java)
-                    if (reservasUsuarioServer?.id == idLibro)
-                        reservasUsuarioServer?.let { reservasList.add(it) }
+                    val reservasServer = data.getValue(ReservasServer::class.java)
+                    if (reservasServer?.id == idLibro)
+                        reservasServer?.let { reservasList.add(it) }
                 }
                 reservasRVAdapter.notifyDataSetChanged()
 
@@ -102,5 +104,6 @@ class ReservasFragment : Fragment(), LibrosReservadosRVAdapter.OnItemClickListen
     override fun onItemClick(reservaLibro: ReservasUsuarioServer) {
         TODO("Not yet implemented")
     }
+
 
 }

@@ -18,5 +18,5 @@
         android:id="@+id/libros_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/libros_reservados_item" />
+        tools:listitem="@layout/mis_reservas_item" />
 </LinearLayout>

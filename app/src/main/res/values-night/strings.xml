@@ -42,4 +42,5 @@
     <string name="no">No</string>
     <string name="si">Si</string>
     <string name="ejemploFecha">11/12/2020</string>
+    <string name="reservado_por">Reservado por:</string>
 </resources>

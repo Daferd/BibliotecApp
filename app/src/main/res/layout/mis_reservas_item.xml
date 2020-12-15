@@ -78,7 +78,7 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/fecha_final_text_view"
+            android:id="@+id/fecha_vencimiento_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

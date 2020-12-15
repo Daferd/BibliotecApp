@@ -13,7 +13,8 @@ import androidx.navigation.fragment.navArgs
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentDetalleDialogBinding
 import com.daferarevalo.bibliotecapp.server.LibroServer
-import com.daferarevalo.bibliotecapp.server.ReservasUsuarioServer
+import com.daferarevalo.bibliotecapp.server.ReservasServer
+import com.daferarevalo.bibliotecapp.server.Usuario
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -88,17 +89,46 @@ class DetalleDialogFragment : DialogFragment() {
                             val user = FirebaseAuth.getInstance().currentUser
                             user?.let {
                                 val uidUsuario = user.uid
-                                reservarLibroEnFirebase(uidUsuario, libroDetalle, fechaVencimiento)
+                                val nombre = buscarUsuarioFirebase(uidUsuario)
+                                reservarLibroEnFirebase(
+                                    uidUsuario,
+                                    libroDetalle,
+                                    fechaVencimiento,
+                                    nombre
+                                )
                             }
                             Toast.makeText(context, "Reservado", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
             }
+
             override fun onCancelled(error: DatabaseError) {
             }
         }
         myReservaRef.addListenerForSingleValueEvent(postListener)
+    }
+
+    private fun buscarUsuarioFirebase(uidUsuario: String): String {
+        val database = FirebaseDatabase.getInstance()
+        val myUsuarioRef = database.getReference("usuarios")
+        var nombre = ""
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (data: DataSnapshot in snapshot.children) {
+                    val usuario = data.getValue(Usuario::class.java)
+                    if (usuario?.id == uidUsuario) {
+                        nombre = usuario.nombre
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        myUsuarioRef.addListenerForSingleValueEvent(postListener)
+        return nombre
     }
 
 
@@ -106,23 +136,25 @@ class DetalleDialogFragment : DialogFragment() {
     private fun reservarLibroEnFirebase(
         uidUsuario: String,
         libroDetalle: LibroServer,
-        fechaVencimiento: String
+        fechaVencimiento: String,
+        nombre: String
     ) {
         val database = FirebaseDatabase.getInstance()
         val myReservaRef = database.getReference("usuarios")
 
         //val id = myReservaRef.push().key.toString()
-        val reservasLibroServer =
-            ReservasUsuarioServer(
+        val reservasServer =
+            ReservasServer(
                 libroDetalle.id,
                 libroDetalle.titulo,
                 libroDetalle.autor,
                 fechaVencimiento,
-                libroDetalle.imagen
+                libroDetalle.imagen,
+                nombre
             )
         uidUsuario.let {
             myReservaRef.child(uidUsuario).child("reservas").child(libroDetalle.id.toString())
-                .setValue(reservasLibroServer)
+                .setValue(reservasServer)
         }
     }
 

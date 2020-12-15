@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.administrador.ReservasFragment">
+    tools:context=".ui.administrador.reservas.ReservasFragment">
 
     <TextView
         android:id="@+id/first_text_view"
@@ -25,6 +25,6 @@
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/first_text_view"
-        tools:listitem="@layout/libros_reservados_item" />
+        tools:listitem="@layout/reservas_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
