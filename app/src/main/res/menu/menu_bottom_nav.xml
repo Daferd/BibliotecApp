@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/reservasFragment"
+        android:id="@+id/nav_reservas"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="Reservas" />
 
     <item
-        android:id="@+id/prestamosFragment"
+        android:id="@+id/nav_prestamos"
         android:icon="@drawable/ic_prestamo"
         android:title="Prestamos" />
 

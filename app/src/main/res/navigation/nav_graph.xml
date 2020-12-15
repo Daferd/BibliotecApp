@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_reservas">
+
+    <fragment
+        android:id="@+id/nav_reservas"
+        android:name="com.daferarevalo.bibliotecapp.ui.administrador.reservas.ReservasFragment"
+        android:label="fragment_reservas"
+        tools:layout="@layout/fragment_reservas" />
+    <fragment
+        android:id="@+id/nav_prestamos"
+        android:name="com.daferarevalo.bibliotecapp.ui.administrador.PrestamosFragment"
+        android:label="fragment_prestamos"
+        tools:layout="@layout/fragment_prestamos" />
+</navigation>
