@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.server.BibliotecaServer
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -36,13 +37,18 @@ class BiblioMapsFragment : Fragment(), GoogleMap.OnPoiClickListener {
          * user has installed Google Play services and returned to the app.
          */
 
-        setUpmap(googleMap)
-
         googleMap.setOnPoiClickListener(this)
 
         googleMap.uiSettings.isZoomControlsEnabled = true
 
-        CargarMarkersDesdeFirebase(googleMap)
+        setUpmap(googleMap)
+
+        val args: BiblioMapsFragmentArgs by navArgs()
+        val detalleBiblioteca = args.BibliotecaSeleccionada
+
+        ubicarBibliotecaSeleccionada(detalleBiblioteca, googleMap)
+
+        //CargarMarkersDesdeFirebase(googleMap)
     }
 
 
@@ -75,6 +81,21 @@ class BiblioMapsFragment : Fragment(), GoogleMap.OnPoiClickListener {
         }
         myBibliotecasRef.addValueEventListener(postListener)
 
+    }
+
+    private fun ubicarBibliotecaSeleccionada(
+        detalleBiblioteca: BibliotecaServer,
+        googleMap: GoogleMap
+    ) {
+        val posicionBiblio =
+            LatLng(detalleBiblioteca.latitud, detalleBiblioteca.longitud)
+        googleMap.addMarker(
+            MarkerOptions()
+                .position(posicionBiblio)
+                .title(detalleBiblioteca.titulo)
+                .snippet(detalleBiblioteca.direccion)
+        )
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posicionBiblio, 16f))
     }
 
     private fun setUpmap(googleMap: GoogleMap?) {

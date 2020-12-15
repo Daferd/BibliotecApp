@@ -111,6 +111,12 @@ class ResenaFragment : Fragment() {
                             puntuacionActual
                         )
 
+                        binding.resenaRatingBar.isEnabled = false
+                        binding.comentarioEditText.isEnabled = false
+                        binding.enviarButton.visibility = View.INVISIBLE
+                        binding.editarButton.visibility = View.VISIBLE
+                        binding.borrarButton.visibility = View.VISIBLE
+
                         Toast.makeText(context, "Reseña guardada", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -128,6 +134,9 @@ class ResenaFragment : Fragment() {
                 binding.enviarButton.visibility = View.VISIBLE
                 binding.editarButton.visibility = View.INVISIBLE
                 binding.borrarButton.visibility = View.INVISIBLE
+                puntuacionLibro = libroDetalle.puntuacion
+                puntuacionPromedio = libroDetalle.promedio
+                cantidadDePuntuaciones = libroDetalle.cantidadDePuntuaciones
             }
         }
 
@@ -239,7 +248,8 @@ class ResenaFragment : Fragment() {
         val database = FirebaseDatabase.getInstance()
         val myComentarioRef = database.getReference("libros").child(idLibro).child("comentarios")
 
-        val fechaComentario = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE)
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
+        val fechaComentario = LocalDateTime.now().format(formatter)
 
         val comentarioServer =
             ComentarioServer(
@@ -260,12 +270,21 @@ class ResenaFragment : Fragment() {
         puntuacionPromedio: Float,
     ) {
         val database = FirebaseDatabase.getInstance()
-        val myUsuarioRef = database.getReference("libros")
-        val childUpdates = HashMap<String, Any>()
-        childUpdates["puntuacion"] = puntuacionLibro
-        childUpdates["cantidadDePuntuaciones"] = cantidadDePuntuaciones
-        childUpdates["promedio"] = puntuacionPromedio
-        idLibro.let { myUsuarioRef.child(it).updateChildren(childUpdates) }
-        Toast.makeText(context, "Puntuación almacenada", Toast.LENGTH_SHORT).show()
+        val myLibroRef = database.getReference("libros")
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val childUpdates = HashMap<String, Any>()
+                childUpdates["puntuacion"] = puntuacionLibro
+                childUpdates["cantidadDePuntuaciones"] = cantidadDePuntuaciones
+                childUpdates["promedio"] = puntuacionPromedio
+                idLibro.let { myLibroRef.child(it).updateChildren(childUpdates) }
+                Toast.makeText(context, "Puntuación almacenada", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        myLibroRef.addListenerForSingleValueEvent(postListener)
     }
 }

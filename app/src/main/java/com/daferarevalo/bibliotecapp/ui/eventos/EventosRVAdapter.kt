@@ -48,26 +48,35 @@ class EventosRVAdapter(var eventosList: ArrayList<EventoServer>) :
             val user = FirebaseAuth.getInstance().currentUser
             user?.let {
                 val uidUsuario = user.uid
-                buscarEventoUsuario(uidUsuario, evento.id, band)
+                buscarEventoUsuario(uidUsuario, evento.id, evento.asistentes, band)
                 binding.asistireSwitch.setOnClickListener {
                     if (binding.asistireSwitch.isChecked) {
+                        evento.asistentes += 1
                         asistenciaEventoEnFirebase(
                             uidUsuario,
                             evento.id,
                             evento.titulo,
                             evento.ubicacion,
                             evento.fecha,
-                            evento.hora
+                            evento.hora,
+                            evento.asistentes
                         )
                     } else {
                         band = false
-                        buscarEventoUsuario(uidUsuario, evento.id, band)
+                        evento.asistentes -= 1
+                        buscarEventoUsuario(uidUsuario, evento.id, evento.asistentes, band)
                     }
                 }
             }
         }
 
-        private fun buscarEventoUsuario(uidUsuario: String, idEvento: String?, band: Boolean) {
+
+        private fun buscarEventoUsuario(
+            uidUsuario: String,
+            idEvento: String?,
+            asistentes: Int,
+            band: Boolean
+        ) {
             val database = FirebaseDatabase.getInstance()
             val myEventoUsuarioRef =
                 database.getReference("usuarios").child(uidUsuario).child("misEventos")
@@ -80,6 +89,7 @@ class EventosRVAdapter(var eventosList: ArrayList<EventoServer>) :
                             if (band) { //se busca si el evento ya esta checkeado
                                 binding.asistireSwitch.isChecked = true
                             } else {
+                                cancelarEventoFirebase(idEvento, asistentes)
                                 eventoServer?.let {
                                     myEventoUsuarioRef.child(idEvento.toString()).removeValue()
                                 }
@@ -95,13 +105,40 @@ class EventosRVAdapter(var eventosList: ArrayList<EventoServer>) :
             myEventoUsuarioRef.addListenerForSingleValueEvent(postListener)
         }
 
+        private fun cancelarEventoFirebase(idEvento: String?, asistentes: Int) {
+            val database = FirebaseDatabase.getInstance()
+            val myEventoRef = database.getReference("eventos")
+
+            val postListener = object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (data: DataSnapshot in snapshot.children) {
+                        val eventoServer = data.getValue(EventoServer::class.java)
+                        if (eventoServer?.id == idEvento) {
+                            val childUpdates = HashMap<String, Any>()
+                            childUpdates["asistentes"] = asistentes
+                            idEvento.let {
+                                myEventoRef.child(idEvento.toString()).updateChildren(childUpdates)
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            }
+            myEventoRef.addListenerForSingleValueEvent(postListener)
+        }
+
         private fun asistenciaEventoEnFirebase(
             uidUsuario: String,
             idEvento: String?,
             titulo: String,
             ubicacion: String,
             fecha: String,
-            hora: String
+            hora: String,
+            asistentes: Int
         ) {
             val database = FirebaseDatabase.getInstance()
             val myReservaRef = database.getReference("usuarios")
@@ -113,12 +150,16 @@ class EventosRVAdapter(var eventosList: ArrayList<EventoServer>) :
                     fecha,
                     ubicacion,
                     hora,
-                    hora
+                    asistentes
                 )
             uidUsuario.let {
                 myReservaRef.child(uidUsuario).child("misEventos").child(idEvento.toString())
                     .setValue(eventosUsuarioServer)
             }
+
+            val myEventoRef = database.getReference("eventos")
+
+            idEvento.let { myEventoRef.child(idEvento.toString()).setValue(eventosUsuarioServer) }
 
         }
 

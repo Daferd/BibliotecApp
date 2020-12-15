@@ -9,13 +9,15 @@ import com.daferarevalo.bibliotecapp.databinding.BibliotecasItemBinding
 import com.daferarevalo.bibliotecapp.server.BibliotecaServer
 import com.squareup.picasso.Picasso
 
-class BibliotecaRVAdapter(var bibliotecasList: ArrayList<BibliotecaServer>) :
-    RecyclerView.Adapter<BibliotecaRVAdapter.BibliotecaViewHolder>() {
+class BibliotecaRVAdapter(
+    var bibliotecasList: ArrayList<BibliotecaServer>,
+    private val onItemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<BibliotecaRVAdapter.BibliotecaViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BibliotecaViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.bibliotecas_item, parent, false)
-        return BibliotecaViewHolder(itemView)
+        return BibliotecaViewHolder(itemView, onItemClickListener)
     }
 
     override fun onBindViewHolder(holder: BibliotecaViewHolder, position: Int) {
@@ -27,7 +29,10 @@ class BibliotecaRVAdapter(var bibliotecasList: ArrayList<BibliotecaServer>) :
         return bibliotecasList.size
     }
 
-    class BibliotecaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class BibliotecaViewHolder(
+        itemView: View,
+        private val onItemClickListener: OnItemClickListener
+    ) : RecyclerView.ViewHolder(itemView) {
 
         private val binding = BibliotecasItemBinding.bind(itemView)
 
@@ -35,6 +40,14 @@ class BibliotecaRVAdapter(var bibliotecasList: ArrayList<BibliotecaServer>) :
             binding.tituloBibliotecaTextView.text = biblioteca.titulo
             binding.direccionBibliotecaTextView.text = biblioteca.direccion
             Picasso.get().load(biblioteca.imagen).into(binding.bibliotecaImageView)
+
+            binding.itemBibliotecaCardView.setOnClickListener {
+                onItemClickListener.onItemClick(biblioteca)
+            }
         }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(biblioteca: BibliotecaServer)
     }
 }

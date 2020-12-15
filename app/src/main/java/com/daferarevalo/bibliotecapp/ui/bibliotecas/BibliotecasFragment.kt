@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daferarevalo.bibliotecapp.R
@@ -18,7 +17,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class BibliotecasFragment : Fragment() {
+class BibliotecasFragment : Fragment(), BibliotecaRVAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentBibliotecasBinding
 
@@ -42,7 +41,10 @@ class BibliotecasFragment : Fragment() {
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.bibliotecasRecyclerView.setHasFixedSize(true)
 
-        bibliotecaRVAdapter = BibliotecaRVAdapter(bibliotecasList as ArrayList<BibliotecaServer>)
+        bibliotecaRVAdapter = BibliotecaRVAdapter(
+            bibliotecasList as ArrayList<BibliotecaServer>,
+            this@BibliotecasFragment
+        )
 
         binding.bibliotecasRecyclerView.adapter = bibliotecaRVAdapter
 
@@ -50,10 +52,10 @@ class BibliotecasFragment : Fragment() {
 
         bibliotecaRVAdapter.notifyDataSetChanged()
 
-        val navController: NavController = Navigation.findNavController(view)
+        /*val navController: NavController = Navigation.findNavController(view)
         binding.irMapaButton.setOnClickListener {
             navController.navigate(R.id.nav_biblioMapa)
-        }
+        }*/
     }
 
     private fun cargarDesdeFirebase() {
@@ -75,5 +77,11 @@ class BibliotecasFragment : Fragment() {
             }
         }
         myBibliotecasRef.addValueEventListener(postListener)
+    }
+
+    override fun onItemClick(biblioteca: BibliotecaServer) {
+        val action =
+            BibliotecasFragmentDirections.actionBibliotecasFragmentToNavBiblioMapa(biblioteca)
+        findNavController().navigate(action)
     }
 }

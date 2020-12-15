@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="4dp"
     tools:context=".ui.bibliotecas.BibliotecasFragment">
@@ -11,15 +10,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bibliotecas_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
         tools:listitem="@layout/bibliotecas_item" />
 
-    <Button
-        android:id="@+id/ir_mapa_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/ir_al_mapa"
-        app:icon="@drawable/ic_location" />
+    <!--    <Button-->
+    <!--        android:id="@+id/ir_mapa_button"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="16dp"-->
+    <!--        android:text="@string/ir_al_mapa"-->
+    <!--        app:icon="@drawable/ic_location"-->
+    <!--        android:layout_gravity="center"/>-->
 
 </LinearLayout>

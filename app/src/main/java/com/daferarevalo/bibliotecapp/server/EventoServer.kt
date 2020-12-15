@@ -6,5 +6,5 @@ data class EventoServer(
     val fecha: String = "",
     val ubicacion: String = "",
     val hora: String = "",
-    val imagen: String = ""
+    var asistentes: Int = 0
 )
