@@ -130,18 +130,25 @@ class DetalleDialogFragment : DialogFragment() {
         val database = FirebaseDatabase.getInstance()
         val myLibroRef = database.getReference("libros")
 
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val childUpdates = HashMap<String, Any>()
-                childUpdates["estado"] = "reservado"
-                childUpdates["fechaVencimiento"] = fechaVencimiento
-                id.let { myLibroRef.child(it).updateChildren(childUpdates) }
-            }
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val uidUsuario = user.uid
+            val postListener = object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val childUpdates = HashMap<String, Any>()
+                    childUpdates["estado"] = "reservado"
+                    childUpdates["fechaVencimiento"] = fechaVencimiento
+                    childUpdates["reservadoPor"] = uidUsuario
+                    id.let { myLibroRef.child(it).updateChildren(childUpdates) }
+                }
 
-            override fun onCancelled(error: DatabaseError) {
+                override fun onCancelled(error: DatabaseError) {
+                }
             }
+            myLibroRef.addListenerForSingleValueEvent(postListener)
         }
-        myLibroRef.addListenerForSingleValueEvent(postListener)
+
+
     }
 
     private fun setDetallesLibro(libroDetalle: LibroServer) {

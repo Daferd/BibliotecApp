@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.daferarevalo.bibliotecapp">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -24,7 +23,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BibliotecApp"
         tools:ignore="AllowBackup">
+        <activity android:name=".ui.administrador.AdministradorBottomActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -44,21 +50,12 @@
         <activity
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/Theme.BibliotecApp.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity android:name=".ui.registro.RegistroActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:theme="@style/Theme.BibliotecApp.NoActionBar" />
-        <activity android:name=".ui.main.MainActivity">
-
-        </activity>
-
     </application>
 
 </manifest>

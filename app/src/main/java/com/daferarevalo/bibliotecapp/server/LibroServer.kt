@@ -13,6 +13,7 @@ data class LibroServer(
     val puntuacion: Int = 0,
     val cantidadDePuntuaciones: Int = 0,
     val promedio: Float = 0.0f,
+    val reservadoPor: String = "",
     val fechaVencimiento: String = ""
 ) : Serializable
 
