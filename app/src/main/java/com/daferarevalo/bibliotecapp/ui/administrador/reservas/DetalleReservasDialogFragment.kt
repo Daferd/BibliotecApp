@@ -12,7 +12,10 @@ import androidx.navigation.fragment.navArgs
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentDetalleReservasDialogBinding
 import com.daferarevalo.bibliotecapp.server.ReservasServer
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -38,15 +41,66 @@ class DetalleReservasDialogFragment : DialogFragment() {
         val detalleReserva = args.detalleReserva
 
         binding.aprobadoButton.setOnClickListener {
-            actualizarEstadoPrestamoFirebase(detalleReserva)
+
+            val formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu")
+
+            val fechaInicial = LocalDateTime.now()
+            val fechaFinalAux = fechaInicial.plusDays(20)
+
+            val fechaVencimiento = fechaFinalAux.format(formatters)
+
+            prestarLibroFirebase(detalleReserva, fechaVencimiento)
             borrarReservaEnFirebase(detalleReserva)
+            actulizarEstadoLibroPrestadoFirebase(detalleReserva, fechaVencimiento)
             Toast.makeText(context, "Aprobada", Toast.LENGTH_SHORT).show()
             dismiss()
         }
 
         binding.denegadoButton.setOnClickListener {
-
+            borrarReservaEnFirebase(detalleReserva)
+            actulizarEstadoLibroDisponibleFirebase(detalleReserva)
+            dismiss()
         }
+    }
+
+    private fun actulizarEstadoLibroDisponibleFirebase(detalleReserva: ReservasServer) {
+        val database = FirebaseDatabase.getInstance()
+        val myLibroRef = database.getReference("libros")
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val childUpdates = HashMap<String, Any>()
+                childUpdates["estado"] = "Disponible"
+                myLibroRef.child(detalleReserva.id.toString()).updateChildren(childUpdates)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        myLibroRef.addListenerForSingleValueEvent(postListener)
+
+    }
+
+    private fun actulizarEstadoLibroPrestadoFirebase(
+        detalleReserva: ReservasServer,
+        fechaVencimiento: String
+    ) {
+        val database = FirebaseDatabase.getInstance()
+        val myLibroRef = database.getReference("libros")
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val childUpdates = HashMap<String, Any>()
+                childUpdates["estado"] = "prestado"
+                childUpdates["fechaVencimiento"] = fechaVencimiento
+                childUpdates["reservadoPor"] = detalleReserva.uidUsuario
+                myLibroRef.child(detalleReserva.id.toString()).updateChildren(childUpdates)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        myLibroRef.addListenerForSingleValueEvent(postListener)
     }
 
     private fun borrarReservaEnFirebase(detalleReserva: ReservasServer) {
@@ -58,16 +112,9 @@ class DetalleReservasDialogFragment : DialogFragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun actualizarEstadoPrestamoFirebase(detalleReserva: ReservasServer) {
+    private fun prestarLibroFirebase(detalleReserva: ReservasServer, fechaVencimiento: String) {
         val database = FirebaseDatabase.getInstance()
         val myUsuarioRef = database.getReference("usuarios")
-
-        val formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu")
-
-        val fechaInicial = LocalDateTime.now()
-        val fechaFinalAux = fechaInicial.plusDays(20)
-
-        val fechaVencimiento = fechaFinalAux.format(formatters)
 
         val prestamoServer = ReservasServer(
             detalleReserva.id,

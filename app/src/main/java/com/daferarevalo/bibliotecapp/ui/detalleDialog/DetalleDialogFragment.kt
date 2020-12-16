@@ -74,6 +74,9 @@ class DetalleDialogFragment : DialogFragment() {
                         if (libroServer?.estado == "reservado") {  //SE VERIFICA QUE EL LIBRO NO ESTE RESERVADO
                             Toast.makeText(context, "El libro esta reservado", Toast.LENGTH_SHORT)
                                 .show()
+                        } else if (libroServer?.estado == "prestado") {
+                            Toast.makeText(context, "El libro esta prestado", Toast.LENGTH_SHORT)
+                                .show()
                         } else {
                             val formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu")
 
@@ -159,7 +162,7 @@ class DetalleDialogFragment : DialogFragment() {
         }
     }
 
-    private fun actualizarEstadoLibroFirebase(id: String, fechaVencimiento: String) {
+    private fun actualizarEstadoLibroFirebase(idLibro: String, fechaVencimiento: String) {
         val database = FirebaseDatabase.getInstance()
         val myLibroRef = database.getReference("libros")
 
@@ -172,7 +175,7 @@ class DetalleDialogFragment : DialogFragment() {
                     childUpdates["estado"] = "reservado"
                     childUpdates["fechaVencimiento"] = fechaVencimiento
                     childUpdates["reservadoPor"] = uidUsuario
-                    id.let { myLibroRef.child(it).updateChildren(childUpdates) }
+                    idLibro.let { myLibroRef.child(it).updateChildren(childUpdates) }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
