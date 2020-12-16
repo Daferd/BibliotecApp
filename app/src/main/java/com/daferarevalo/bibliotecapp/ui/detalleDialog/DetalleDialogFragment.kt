@@ -150,7 +150,8 @@ class DetalleDialogFragment : DialogFragment() {
                 libroDetalle.autor,
                 fechaVencimiento,
                 libroDetalle.imagen,
-                nombre
+                nombre,
+                uidUsuario
             )
         uidUsuario.let {
             myReservaRef.child(uidUsuario).child("reservas").child(libroDetalle.id.toString())

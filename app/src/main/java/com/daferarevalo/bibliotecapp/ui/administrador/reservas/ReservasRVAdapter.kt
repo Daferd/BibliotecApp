@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.ReservasItemBinding
 import com.daferarevalo.bibliotecapp.server.ReservasServer
-import com.daferarevalo.bibliotecapp.server.ReservasUsuarioServer
 import com.squareup.picasso.Picasso
 
 class ReservasRVAdapter(
@@ -45,10 +44,13 @@ class ReservasRVAdapter(
             binding.usuarioResTextView.text = libroRes.nombreUsuario
             if (libroRes.imagen != "")
                 Picasso.get().load(libroRes.imagen).into(binding.librosImageView)
+            binding.itemCardView.setOnClickListener {
+                onItemClickListener.onItemClick(libroRes)
+            }
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(reservaLibro: ReservasUsuarioServer)
+        fun onItemClick(reservaLibro: ReservasServer)
     }
 }

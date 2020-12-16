@@ -5,27 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.FragmentReservasBinding
 import com.daferarevalo.bibliotecapp.server.LibroServer
 import com.daferarevalo.bibliotecapp.server.ReservasServer
-import com.daferarevalo.bibliotecapp.server.ReservasUsuarioServer
-import com.daferarevalo.bibliotecapp.ui.misReservas.LibrosReservadosRVAdapter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class ReservasFragment : Fragment(), LibrosReservadosRVAdapter.OnItemClickListener,
-    ReservasRVAdapter.OnItemClickListener {
+class ReservasFragment() : Fragment(), ReservasRVAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentReservasBinding
     private var reservasList: MutableList<ReservasServer> = mutableListOf()
     private lateinit var reservasRVAdapter: ReservasRVAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -101,9 +98,11 @@ class ReservasFragment : Fragment(), LibrosReservadosRVAdapter.OnItemClickListen
         myUsuarioRef.addListenerForSingleValueEvent(postListener)
     }
 
-    override fun onItemClick(reservaLibro: ReservasUsuarioServer) {
-        TODO("Not yet implemented")
-    }
 
+    override fun onItemClick(reservaLibro: ReservasServer) {
+        val action =
+            ReservasFragmentDirections.actionNavReservasToDetalleReservasDialogFragment(reservaLibro)
+        findNavController().navigate(action)
+    }
 
 }

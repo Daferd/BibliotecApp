@@ -9,10 +9,23 @@
         android:id="@+id/nav_reservas"
         android:name="com.daferarevalo.bibliotecapp.ui.administrador.reservas.ReservasFragment"
         android:label="fragment_reservas"
-        tools:layout="@layout/fragment_reservas" />
+        tools:layout="@layout/fragment_reservas">
+        <action
+            android:id="@+id/action_nav_reservas_to_detalleReservasDialogFragment"
+            app:destination="@id/detalleReservasDialogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_prestamos"
         android:name="com.daferarevalo.bibliotecapp.ui.administrador.PrestamosFragment"
         android:label="fragment_prestamos"
         tools:layout="@layout/fragment_prestamos" />
+    <dialog
+        android:id="@+id/detalleReservasDialogFragment"
+        android:name="com.daferarevalo.bibliotecapp.ui.administrador.reservas.DetalleReservasDialogFragment"
+        android:label="DetalleReservasDialogFragment"
+        tools:layout="@layout/fragment_detalle_reservas_dialog">
+        <argument
+            android:name="detalleReserva"
+            app:argType="com.daferarevalo.bibliotecapp.server.ReservasServer" />
+    </dialog>
 </navigation>

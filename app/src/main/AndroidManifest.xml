@@ -23,7 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BibliotecApp"
         tools:ignore="AllowBackup">
-        <activity android:name=".ui.administrador.AdministradorBottomActivity">
+        <activity
+            android:name=".ui.administrador.AdministradorBottomActivity"
+            android:theme="@style/Theme.BibliotecApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
