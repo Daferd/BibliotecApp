@@ -8,10 +8,7 @@
             android:id="@+id/nav_inicio"
             android:icon="@drawable/ic_home"
             android:title="@string/inicio" />
-        <item
-            android:id="@+id/nav_micuenta"
-            android:icon="@drawable/ic_person"
-            android:title="@string/mi_cuenta" />
+
         <item
             android:id="@+id/nav_eventos"
             android:icon="@drawable/ic_event"
@@ -21,6 +18,11 @@
             android:id="@+id/nav_bibliotecas"
             android:icon="@drawable/ic_library_books"
             android:title="@string/bibliotecas" />
+
+        <item
+            android:id="@+id/nav_micuenta"
+            android:icon="@drawable/ic_person"
+            android:title="@string/mi_cuenta" />
 
     </group>
 </menu>

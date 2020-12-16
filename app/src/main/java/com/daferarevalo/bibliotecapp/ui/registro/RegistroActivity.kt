@@ -10,8 +10,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.daferarevalo.bibliotecapp.R
 import com.daferarevalo.bibliotecapp.databinding.ActivityRegistroBinding
 import com.daferarevalo.bibliotecapp.server.Usuario
 import com.google.android.gms.tasks.Continuation
@@ -39,6 +41,14 @@ class RegistroActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        val items = listOf("Usuario", "Administrador")
+
+        val adapter = ArrayAdapter(this, R.layout.dropdown_item, items)
+        binding.autoCompleteTextView.setAdapter(adapter)
+
+
+
+
         auth = FirebaseAuth.getInstance()
 
         binding.registroImageView.setOnClickListener {
@@ -50,6 +60,8 @@ class RegistroActivity : AppCompatActivity() {
             val correo = binding.correoRegistroEditText.text.toString()
             val contrasena = binding.contrasenaRegistroEditText.text.toString()
             val repcontrasena = binding.repcontrasenaRegistroEditText.text.toString()
+            val opcion = binding.autoCompleteTextView.text.toString()
+
 
             if (nombre.isEmpty() || correo.isEmpty() || contrasena.isEmpty()) {
                 Toast.makeText(this, "Algunos campos estan vacios", Toast.LENGTH_SHORT).show()

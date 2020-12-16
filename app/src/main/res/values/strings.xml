@@ -69,4 +69,9 @@
     <string name="reservas">Reservas</string>
     <string name="prestamos">Prestamos</string>
     <string name="actualizar">Actualizar</string>
+
+    <string-array name="tipoUsuario">
+        <item>Usuario</item>
+        <item>Administrador</item>
+    </string-array>
 </resources>
