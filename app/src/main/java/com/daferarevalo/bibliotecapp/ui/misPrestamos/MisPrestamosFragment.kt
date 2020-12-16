@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -63,7 +64,7 @@ class MisPrestamosFragment : Fragment(), ReservasRVAdapter.OnItemClickListener {
 
             val database = FirebaseDatabase.getInstance()
             val myPrestamosUsuarioRef =
-                database.getReference("usuarios").child(uidUsuario).child("prestamos")
+                database.getReference("usuarios").child(uidUsuario).child("misPrestamos")
 
             val postListener = object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -82,7 +83,7 @@ class MisPrestamosFragment : Fragment(), ReservasRVAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(reservaLibro: ReservasServer) {
-        TODO("Not yet implemented")
+        Toast.makeText(context, "función no implementada", Toast.LENGTH_SHORT).show()
     }
 
 }

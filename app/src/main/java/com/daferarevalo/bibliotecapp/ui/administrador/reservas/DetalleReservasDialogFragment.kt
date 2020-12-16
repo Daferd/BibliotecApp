@@ -106,7 +106,7 @@ class DetalleReservasDialogFragment : DialogFragment() {
     private fun borrarReservaEnFirebase(detalleReserva: ReservasServer) {
         val database = FirebaseDatabase.getInstance()
         val myUsuarioRef = database.getReference("usuarios")
-            .child(detalleReserva.uidUsuario).child("reservas")
+            .child(detalleReserva.uidUsuario).child("misReservas")
 
         myUsuarioRef.child(detalleReserva.id.toString()).removeValue()
     }
@@ -126,7 +126,7 @@ class DetalleReservasDialogFragment : DialogFragment() {
             detalleReserva.uidUsuario
         )
 
-        myUsuarioRef.child(detalleReserva.uidUsuario).child("prestamos")
+        myUsuarioRef.child(detalleReserva.uidUsuario).child("misPrestamos")
             .child(detalleReserva.id.toString())
             .setValue(prestamoServer)
     }

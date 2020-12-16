@@ -79,7 +79,8 @@ class ReservasFragment() : Fragment(), ReservasRVAdapter.OnItemClickListener {
 
     private fun cargarDesdeFirebase(reservadoPor: String, idLibro: String?) {
         val database = FirebaseDatabase.getInstance()
-        val myUsuarioRef = database.getReference("usuarios").child(reservadoPor).child("reservas")
+        val myUsuarioRef =
+            database.getReference("usuarios").child(reservadoPor).child("misReservas")
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

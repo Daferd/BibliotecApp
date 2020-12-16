@@ -8,12 +8,6 @@
     tools:context=".ui.misReservas.MisReservasFragment">
 
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/libros_recycler_view"
         android:layout_width="match_parent"

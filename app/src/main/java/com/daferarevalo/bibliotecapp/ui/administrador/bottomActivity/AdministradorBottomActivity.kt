@@ -1,4 +1,4 @@
-package com.daferarevalo.bibliotecapp.ui.administrador
+package com.daferarevalo.bibliotecapp.ui.administrador.bottomActivity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

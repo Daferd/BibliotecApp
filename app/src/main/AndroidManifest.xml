@@ -24,10 +24,9 @@
         android:theme="@style/Theme.BibliotecApp"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".ui.administrador.AdministradorBottomActivity"
+            android:name=".ui.administrador.bottomActivity.AdministradorBottomActivity"
             android:theme="@style/Theme.BibliotecApp.NoActionBar">
-
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -53,7 +52,6 @@
         <activity
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/Theme.BibliotecApp.NoActionBar">
-
 
         </activity>
         <activity android:name=".ui.registro.RegistroActivity" />

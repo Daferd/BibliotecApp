@@ -65,7 +65,7 @@ class EventosFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
             }
         }
-        myEventosRef.addValueEventListener(postListener)
+        myEventosRef.addListenerForSingleValueEvent(postListener)
     }
 
     companion object

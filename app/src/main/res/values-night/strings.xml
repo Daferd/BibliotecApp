@@ -11,7 +11,6 @@
     <string name="google">Google</string>
     <string name="repita_contrasena">Repita contraseña</string>
     <string name="prefieres_ingresar_con_tu_cuenta_de_google">¿Prefieres ingresar con tu cuenta de Google?</string>
-    <string name="actualizar">Actualizar</string>
     <string name="titulo">Titulo</string>
     <string name="direccion">Direccion:</string>
     <string name="calle_x_no_y_h">Calle x No y - h</string>
@@ -43,4 +42,7 @@
     <string name="si">Si</string>
     <string name="ejemploFecha">11/12/2020</string>
     <string name="reservado_por">Reservado por:</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="reservas">Reservas</string>
+    <string name="prestamos">Prestamos</string>
 </resources>

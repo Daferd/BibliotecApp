@@ -4,11 +4,16 @@
     <item
         android:id="@+id/nav_reservas"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="Reservas" />
+        android:title="@string/reservas" />
 
     <item
         android:id="@+id/nav_prestamos"
         android:icon="@drawable/ic_prestamo"
-        android:title="Prestamos" />
+        android:title="@string/prestamos" />
+
+    <item
+        android:id="@id/nav_actualizar"
+        android:icon="@drawable/ic_edit"
+        android:title="@string/actualizar" />
 
 </menu>

@@ -59,7 +59,7 @@ class ReservasDialogFragment : DialogFragment() {
 
         val database = FirebaseDatabase.getInstance()
         val myDeudoresRef =
-            database.getReference("usuarios").child(uidUsuario).child("reservas")
+            database.getReference("usuarios").child(uidUsuario).child("misReservas")
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

@@ -28,4 +28,9 @@
             android:name="detalleReserva"
             app:argType="com.daferarevalo.bibliotecapp.server.ReservasServer" />
     </dialog>
+    <fragment
+        android:id="@+id/nav_actualizar"
+        android:name="com.daferarevalo.bibliotecapp.ui.administrador.actualizar.ActualizarFragment"
+        android:label="fragment_actualizar"
+        tools:layout="@layout/fragment_actualizar" />
 </navigation>

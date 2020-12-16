@@ -157,7 +157,7 @@ class DetalleDialogFragment : DialogFragment() {
                 uidUsuario
             )
         uidUsuario.let {
-            myReservaRef.child(uidUsuario).child("reservas").child(libroDetalle.id.toString())
+            myReservaRef.child(uidUsuario).child("misReservas").child(libroDetalle.id.toString())
                 .setValue(reservasServer)
         }
     }
